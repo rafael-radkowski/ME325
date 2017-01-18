@@ -177,3 +177,28 @@ def FoS(sigma_x, sigma_y, Sut, Suc):
         return fs2
     else:
         return fs1 #both are equal
+
+
+
+
+def brittle_coulumb_fos(s1, s3, Sut, Suc):
+    """
+    Computes the brittle coulumb factor of safety
+    :param s1:  the first principle stress in kpsi
+    :param s3:  the second principle stess in kpsi
+    :param Sut: Ultimate tensile
+    :param Suc: Ultimate compression
+    :return:
+    """
+
+    if s1 >= 0 and s3 >= 0:
+        n = Sut/s1
+        return n
+    elif s1 >= 0 and s3 < 0:
+        n_inv = (s1/Sut) - (s3/Suc)
+        n = 1/n_inv
+        return n
+    elif s1 < 0 and s3 < 0:
+        n = -Suc/s3
+        return n
+

@@ -43,7 +43,7 @@ Sut = 35.0 # kpsi
 Suc = 95.0 # kpsi
 
 #-- Load
-F = 10.0 # kpsi
+F = 10000.0 # lbf
 
 
 #-- Dimensions
@@ -73,7 +73,7 @@ def example1(Load):
     # principle stresses (there are equal to sigma_x and sigma_y in this case.
     # But we always search for the principle stresses.
 
-    [sigma_1, sigma_3, angle] = PrincipleStress([sigma_x], [0.0])
+    [sigma_1, sigma_3, angle] = PrincipleStress([sigma_x/1000.0], [0.0])
 
     print "Sigma_1: ", sigma_1, "\tSigma_3: ", sigma_3, "angle: ", angle
 
@@ -129,7 +129,7 @@ plt.grid()
 
 # Add a slider
 forceF = plt.axes([0.2, 0.02, 0.65, 0.03], axisbg='lightyellow')
-ForceFslider = Slider(forceF, 'Load', -40.0, 30.0, valinit=F)
+ForceFslider = Slider(forceF, 'Load', -40000.0, 40000.0, valinit=F)
 
 # Update function for the slider
 def update(val):
