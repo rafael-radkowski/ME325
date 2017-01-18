@@ -35,7 +35,7 @@ r1 = 0.6 #in
 l1 = 19.0 #in
 
 # dimensions of the second beam
-r2 = 0.9 #in
+r2 = 1.0 #in
 l2 = 15.0 #in
 
 
