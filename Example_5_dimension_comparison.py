@@ -121,7 +121,7 @@ def example5(T):
     # --------------------------------------------
     # Compute the  polar second moment of area
 
-    d = D - ti
+    d = D - (ti*2.0)
 
     Ip = math.pi * (D**4 - d**4) / 32.0
 
@@ -195,8 +195,8 @@ pl_ll2, = plt.plot([0.0, 300], [0.0, ll2y], 'k--')
 
 
 # Plot the stress point
-pl_s1, = plt.plot([s1_l1/ const], [s2_l1/ const], 'ro', label="location l1")
-pl_s2, = plt.plot([s1_l2/ const], [s2_l2/ const], 'bo', label="location l2")
+pl_s1, = plt.plot([s1_l1/ const], [s2_l1/ const], 'ro', label="location C")
+pl_s2, = plt.plot([s1_l2/ const], [s2_l2/ const], 'bo', label="location D")
 
 
 
@@ -212,7 +212,7 @@ plt.grid()
 #------------------------------------------------------------------------------------
 # Add a slider
 torqueF = plt.axes([0.1, 0.02, 0.3, 0.03], axisbg='lightyellow')
-Torqueslider = Slider(torqueF, 'Load', -1500.0, 1500.0, valinit=T1)
+Torqueslider = Slider(torqueF, 'Load', -1500.0, 3500.0, valinit=T1)
 
 # Update function for the slider
 def update(val):
