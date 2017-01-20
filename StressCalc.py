@@ -202,3 +202,19 @@ def brittle_coulumb_fos(s1, s3, Sut, Suc):
         n = -Suc/s3
         return n
 
+
+
+def mnst_fos(s1, s3, Sut, Suc):
+
+    if s1 >= 0 and s1 > s3:
+        n = Sut / s1
+        return n
+    elif s3 >= 0 and s3 > s1:
+        n = Suc / s3
+        return abs(n)
+    if s1 < 0 and s1 < s3:
+        n = Suc / s1
+        return abs(n)
+    else:
+        n = Suc / s3
+        return abs(n)
