@@ -100,3 +100,4 @@ def plotTrescaFailureTheory(Sy, linewidth = 1):
     plt.plot([-Sy, -Sy], [0, -Sy], 'k-', color=color, lw=linewidth)
     plt.plot([-Sy, 0], [-Sy, -Sy], 'k-', color=color, lw=linewidth)
     plt.plot([0, Sy], [-Sy, 0], 'k-', color=color, lw=linewidth)
+

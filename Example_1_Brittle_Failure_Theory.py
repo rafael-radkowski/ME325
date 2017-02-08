@@ -13,7 +13,8 @@ Suc - Ultimate compression strength
 F - load
 width, height - the cross-section of the bar.
 
-The code returns the principle stresses along with the factor of safety and plots the brittle failure theory plots.
+The code returns the principle stresses along w
+ith the factor of safety and plots the brittle failure theory plots.
 
 
 Rafael Radkowski

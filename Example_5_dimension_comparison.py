@@ -42,8 +42,8 @@ r1 = 2.0 # in
 r2 = 1.5 # in
 
 ## diameter of the hollow pipe
-D = 1.0 # in
-ti = 0.15 # in, thickness
+D = 2*1.0 # in
+ti = 2*0.15 # in, thickness
 
 
 fig1 = 0;

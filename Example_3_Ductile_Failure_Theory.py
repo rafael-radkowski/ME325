@@ -59,6 +59,7 @@ def example3(F, theory='Principle'):
     #compute the second moment of area and the second polar moment of area
     I2_zz = np.pi * (r2*2)**4 / 64.0
     It = np.pi * (2*r2)**4 / 32.0
+    print "I2zz:" , I2_zz
 
     # bending stress at the mounting point
     sigma_max = (F * l2 * r2) / I2_zz
