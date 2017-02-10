@@ -28,8 +28,6 @@ from StressCalc import *
 from FatigueFailureTheories import *
 
 
-
-
 Sut = 110 # kpsi
 Sy = 95 # kpsi,
 Se = 33.8 # kpsi, the endurance limit
@@ -43,6 +41,27 @@ sa = 20.0
 sm = 20.0
 
 
+def factor_of_safety(sa, sm, Se, Sut):
+    n_gerber = Gerber_FoS(sa, sm, Se, Sut)
+    n_goodman = mod_Goodman_Fos(sa, sm, Se, Sut)
+
+    print ("FoS, Geber = " + str(n_gerber) + "\t Goodman = " + str(n_goodman))
+
+    return n_gerber, n_goodman
+
+
+def load_line_slope(sa_, sm_):
+    """
+    Computes the slope of the load line
+    :param sa_: alternating load
+    :param sm_: midrange load
+    :return:
+    """
+    return sa_ / sm_ * 300;
+
+
+
+
 fig2, ax = plt.subplots(figsize=(8, 8))
 plt.subplots_adjust(left=0.1, bottom=0.150)
 
@@ -52,24 +71,22 @@ plot_fatigue_diagram(Se, Sy, Sut)
 
 
 # Plot the stress point
-pl_s1, = plt.plot([sa], [sm], 'ro', label="location C")
-
-
+pl_s1, = plt.plot([sm], [sa], 'ro', label="location C")
 
 
 # load lines
-load_line_m = sm/sa * 300;
-pl_ll, = plt.plot([0.0, 300], [0.0, load_line_m], 'k--')
+pl_ll, = plt.plot([0.0, 300], [0.0, load_line_slope(sa, sm)], 'k--')
 
 
-n1 = Gerber_FoS(sa, sm, Se, Sut)
-print ("Geber - factor of safety = " + str(n1))
-
+# Compute the initial factor of safety.
+fos_gerber, fos_goodman = factor_of_safety(sa, sm, Se, Sut)
+pl_text1 = text(5, 112, ["FoS Gerber", fos_gerber], fontsize=14)
+pl_text2 = text(5, 106, ["FoS Mod. Goodman", fos_goodman], fontsize=14)
 
 
 
 sa_slider_obj = plt.axes([0.1, 0.04, 0.3, 0.03], axisbg='lightyellow')
-sa_slider = Slider(sa_slider_obj, 's_a', 0.0, 60.0, valinit=sa)
+sa_slider = Slider(sa_slider_obj, 's_a', 0.0, 100.0, valinit=sa)
 # Update function for the slider
 def update1(val):
     global T1
@@ -77,16 +94,15 @@ def update1(val):
     sa = val
 
     # update the point
-    pl_s1.set_data([sa], [sm])
+    pl_s1.set_data([sm], [sa])
 
     # update load lines
-    load_line_m = sm / sa * 300;
-    pl_ll.set_data([0.0, 300], [0.0, load_line_m])
+    pl_ll.set_data([0.0, 300], [0.0, load_line_slope(sa, sm)])
 
-
-
-    n = Gerber_FoS(sa, sm, Se, Sut)
-    print ("Geber - factor of safety = " + str(n) )
+    # Update the factor of safety
+    fos_gerber, fos_goodman = factor_of_safety(sa, sm, Se, Sut)
+    pl_text1.set_text(["FoS Gerber", fos_gerber])
+    pl_text2.set_text(["FoS Mod. Goodman", fos_goodman])
 
 
     fig2.canvas.draw_idle()
@@ -96,7 +112,7 @@ sa_slider.on_changed(update1)
 
 
 sm_slider_obj = plt.axes([0.55, 0.04, 0.3, 0.03], axisbg='lightyellow')
-sm_slider = Slider(sm_slider_obj, 's_a', 0.0, 60.0, valinit=sa)
+sm_slider = Slider(sm_slider_obj, 's_m', 0.0, 100.0, valinit=sa)
 # Update function for the slider
 def update2(val):
     global T1
@@ -104,14 +120,15 @@ def update2(val):
     sm = val
 
     # update the point
-    pl_s1.set_data([sa], [sm])
+    pl_s1.set_data([sm], [sa])
 
     # update load lines
-    load_line_m = sm / sa * 300;
-    pl_ll.set_data([0.0, 300], [0.0, load_line_m])
+    pl_ll.set_data([0.0, 300], [0.0, load_line_slope(sa, sm)])
 
-    n = Gerber_FoS(sa, sm, Se, Sut)
-    print ("Geber - factor of safety = " + str(n))
+    # Update the factor of safety
+    fos_gerber, fos_goodman = factor_of_safety(sa, sm, Se, Sut)
+    pl_text1.set_text(["FoS Gerber", fos_gerber])
+    pl_text2.set_text(["FoS Mod. Goodman", fos_goodman])
 
 
     fig2.canvas.draw_idle()

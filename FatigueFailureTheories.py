@@ -59,33 +59,63 @@ def compute_fatigue_strength( itrerations, Sut, Sy, Se, N_low_cycle, N_endurance
 
     if itrerations < 0.0 and itrerations < N_low_cycle:
 
-        a = (Sut - Sy)/ (0-N_low_cycle)
-        b = Sy - a * N_low_cycle
 
-        f = a * itrerations + b
+        a = (Sut - Sy) / (np.log(0) - np.log(N_low_cycle))
+        b = Sy - a * np.log(N_low_cycle)
+
+        f = a * np.log(itrerations) + b
+
+
         return f
 
     elif itrerations >= N_low_cycle and itrerations < N_endurance:
 
 
-        Syl = np.log(Sy)
-        Sel = np.log(Se)
+        a = ( Sy - Se ) / (np.log(N_low_cycle) - np.log(N_endurance))
+        b = Se - a * np.log(N_endurance)
 
-        #a = ( Syl - Sel ) / (N_low_cycle - N_endurance)
-        #b = Se - a * N_endurance
+        f =  a * np.log(itrerations) + b
 
-        f =  ( Syl - Sel ) / (N_low_cycle - N_endurance) * (itrerations - N_low_cycle)
-
-        #print (a)
-        #print (b)
-
-        #f = a * itrerations + b
         return f
 
     else:
 
         return Se
 
+
+
+
+def compute_fatigue_iterations(Sf, Sut, Sy, Se, N_low_cycle, N_endurance):
+
+
+    if Sf <= Se:
+
+        return N_endurance;
+
+
+    elif Sf < Sy and Sf >Se:
+
+        a = (Sy - Se) / (np.log(N_low_cycle) - np.log(N_endurance))
+        b = Se - a * np.log(N_endurance)
+
+        e = (Sf-b)/a
+
+        itr = np.exp(e)
+
+        return itr
+
+
+    else:
+
+
+        a = (Sut - Sy) / (np.log(0) - np.log(N_low_cycle))
+        b = Sy - a * np.log(N_low_cycle)
+
+        e = (Sf-b) / a
+
+        itr = np.exp(e)
+
+        return itr
 
 
 
@@ -132,8 +162,16 @@ def plot_fatigue_diagram(Se, Sy, Sut):
 
 
 
-def Gerber_FoS(sa, sm, Se, Sut):
 
+def Gerber_FoS(sa, sm, Se, Sut):
+    """
+    Computes the Gerber relation factor of safety
+    :param sa: alternating stress
+    :param sm: midrange stress
+    :param Se: Endurance strength
+    :param Sut: Ultimate tensile strength
+    :return: factor of safety
+    """
 
     a = (sm/Sut)**2
     b = (sa/Se)
@@ -142,13 +180,23 @@ def Gerber_FoS(sa, sm, Se, Sut):
     p = b/a
     q = c/a
 
-
-    n1 = - (p/2.0) + np.sqrt((p/2.0)**2 - q)
+    n = - (p/2.0) + np.sqrt((p/2.0)**2 - q)
     n2 = - (p/2.0) - np.sqrt((p / 2.0) ** 2 - q)
-
-
-    n = 0.5 * (Sut/sm)**2 * (sa/Se) * (-1 + ( np.sqrt(1 + (2* sm*Se)/(Sut*sa) )**2) )
 
     return n
 
+
+def mod_Goodman_Fos(sa, sm, Se, Sut):
+    """
+    Computes the mod Goodman relation factor of safety
+    :param sa: alternating stress
+    :param sm: midrange stress
+    :param Se: Endurance strength
+    :param Sut: Ultimate tensile strength
+    :return: factor of safety
+    """
+
+    n_inv = sa/Se + sm / Sut
+
+    return 1/n_inv
 

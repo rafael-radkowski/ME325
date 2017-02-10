@@ -37,20 +37,54 @@ N_lcc = 1E+2 # low cycle to high cycle switch.
 
 
 
-def solve_example_07():
+def solve_example_07(itr):
 
-    itr = 100000
 
     Sf = compute_fatigue_strength(itr, Sut, Sy, Se, N_lcc, N_inv)
     print ("Sf = " + str(Sf))
 
-
-    # plot the the sn diagram
-    plot_SN_diagram(Sut, Sy, Se, N_lcc, N_inv)
-    plt.plot([itr, itr], [0, Sf], 'r-', color='b', lw=1)
-
-    plt.show()
+    return Sf
 
 
 
-solve_example_07()
+
+
+itr = 100000
+Sf = solve_example_07(itr)
+
+
+
+fig1, ax = plt.subplots(figsize=(10, 8))
+plt.subplots_adjust(left=0.1, bottom=0.150)
+
+# plot the the sn diagram
+plot_SN_diagram(Sut, Sy, Se, N_lcc, N_inv)
+l1, = plt.plot([itr, itr], [0, Sf], 'r-', color='r', lw=1)
+l2, = plt.plot([0, itr], [Sf, Sf], 'r-', color='r', lw=1)
+
+
+
+
+itr_slider_obj = plt.axes([0.1, 0.04, 0.6, 0.03], axisbg='lightyellow')
+itr_slider = Slider(itr_slider_obj, 'itr', 0.0, 10000000, valinit=itr)
+
+# Update function for the slider
+def update1(val):
+    global T1
+
+    itr = val
+
+    Sf = solve_example_07(itr)
+
+    # update the lines
+    l1.set_data([itr, itr], [0, Sf])
+    l2.set_data([0, itr], [Sf, Sf])
+
+
+
+    fig1.canvas.draw_idle()
+itr_slider.on_changed(update1)
+
+
+plt.show()
+
