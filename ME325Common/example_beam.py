@@ -7,6 +7,7 @@ if platform.system() == 'Darwin':
 
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.patches import Circle, Arc
 
 # tkinter for the display
 from tkinter import *
@@ -97,9 +98,11 @@ class ExampleBeam():
     detail_s_max = 0
 
     canvas = 0
-    arrow = [0,0,0]
+    arrow = [0,0,0,0,0,0]
     area_plt = 0
     plot_init = 0
+    circle = 0
+    circle_txt = 0
 
     def __init__(self):
         self.img = Image.open("resources/Example_01.png")
@@ -176,7 +179,14 @@ class ExampleBeam():
 
         return [s1, s3, s_xx, s_yy]
 
+
     def calc_radius(self, b, h):
+        """
+        Calculates the radius for the second polar moment of inertia of area
+        :param b:
+        :param h:
+        :return:
+        """
         r = np.sqrt((b / 2) ** 2 + (h / 2) ** 2)
         return r
 
@@ -198,10 +208,14 @@ class ExampleBeam():
 
 
     def createManualEntryMenu(self, toplevel, event_callback):
+        """
+        Create a menu that allows a user to manually enter the values for this example.
+        :param toplevel:
+        :param event_callback:
+        :return:
+        """
 
         self.window = Toplevel(toplevel)
-
-
         tk.Label(self.window, text="Yield stress (N/mm^2):", background='white').grid(sticky=NW, row=0, column=0)
         tk.Label(self.window, text="Load F (N):", background='white').grid(sticky=NW, row=1, column=0)
         tk.Label(self.window, text="Angle alpha (deg):", background='white').grid(sticky=NW, row=2, column=0)
@@ -209,9 +223,6 @@ class ExampleBeam():
         tk.Label(self.window, text="height h (mm):", background='white').grid(sticky=NW, row=4, column=0)
         tk.Label(self.window, text="width w (mm):", background='white').grid(sticky=NW, row=5, column=0)
         tk.Label(self.window, text="length l (mm):", background='white').grid(sticky=NW, row=6, column=0)
-
-
-
 
         Entry(self.window, textvariable=self.input_Sy).grid(sticky=NW, row=0, column=1)
         Entry(self.window, textvariable=self.input_F).grid(sticky=NW, row=1, column=1)
@@ -230,6 +241,17 @@ class ExampleBeam():
 
 
     def setMenuValue(self, Sy, F, T, a, h, w, l):
+        """
+        Set the menu values to a user-specified values
+        :param Sy: Yield stress
+        :param F:  Load F
+        :param T:  Torsion T
+        :param a: the load angle for F
+        :param h: the height of the area
+        :param w: the width of the are
+        :param l: the length of the beam
+        :return:
+        """
         self.input_Sy.set(Sy)
         self.input_F.set(F)
         self.input_T.set(T)
@@ -241,6 +263,10 @@ class ExampleBeam():
 
 
     def getManualEntryValues(self):
+        """
+        Evaluate the user's entries and apply them.
+        :return:
+        """
         try:
             digits = 2
 
@@ -275,7 +301,11 @@ class ExampleBeam():
 
 
     def createDetailsWindow(self, toplevel):
-
+        """
+        Create an additional window that displays details pertaining to this example.
+        :param toplevel: The top level window of the applicatoin. Root window for this window.
+        :return:
+        """
         self.window_details = Toplevel(toplevel)
 
         tk.Label(self.window_details, text="Principal stress", background='white').grid(sticky=NW, row=0, column=0)
@@ -304,7 +334,7 @@ class ExampleBeam():
         Entry(self.window_details, textvariable=self.detail_I_yy, state='readonly').grid(sticky=NW, row=7, column=2)
         Entry(self.window_details, textvariable=self.detail_J_p, state='readonly').grid(sticky=NW, row=8, column=2)
 
-
+        # Create a plot
         self.canvas = self.createLoadPlot( self.window_details, 9, 0)
 
 
@@ -326,8 +356,6 @@ class ExampleBeam():
         self.detail_J_p.set(str(round(Jp,2)))
 
 
-
-
     def detail_window_destroyed_callback(self):
         """
         Destroy the subwindow
@@ -343,6 +371,9 @@ class ExampleBeam():
             return
 
         plt.figure(2)
+
+        self.circle.center = (self.width / 2, self.height / 2)
+        self.circle_txt.set_position((self.width / 2 + 1.5, self.height / 2 + 1.5))
 
         self.area_plt.set_data([-self.width / 2, self.width / 2, self.width / 2, -self.width / 2, -self.width / 2],
                                [-self.height / 2, -self.height / 2, self.height / 2, self.height / 2, -self.height / 2])
@@ -363,6 +394,11 @@ class ExampleBeam():
         self.arrow[1].set_data([0, ax], [0, ay])
         self.arrow[2].set_data([0, ax2], [0, ay2])
 
+        pa_x, pa_y, arx, ary, arx2, ary2 = self.__get_arc_points(0, 0, length / 2, 180, 360)
+        self.arrow[3].set_data(pa_x, pa_y)
+        self.arrow[4].set_data(arx, ary)
+        self.arrow[5].set_data(arx2, ary2)
+
         plt.figure(2)
 
         lim = np.max([float(self.width), float(self.height)])
@@ -376,6 +412,13 @@ class ExampleBeam():
 
 
     def createLoadPlot(self, toplevel, row_, col_):
+        """
+        Create a small plot that shows the load and the area.
+        :param toplevel:
+        :param row_:
+        :param col_:
+        :return:
+        """
         self.plot_init = 1
         fig, ax = plt.subplots(figsize=(4, 4),num=2)
         plt.subplots_adjust(left=0.15, bottom=0.15)
@@ -391,13 +434,23 @@ class ExampleBeam():
         toplevel.rowconfigure(row_, weight=1)
         toplevel.rowconfigure(row_, pad=7)
 
+        # circle
+
+        self.circle = Circle([self.width / 2, self.height / 2], 1.5, color='red',fill=False,
+                                 linestyle='-', linewidth=1)
+        ax.add_patch(self.circle)
+
+        self.circle_txt = plt.text(self.width / 2 + 1.5, self.height / 2 + 1.5, r"$\sigma_{max}$", color='red', fontsize=12)
+
         # draw area
         self.area_plt, = plt.plot([-self.width/2, self.width/2, self.width/2, -self.width/2 , -self.width / 2],
                                   [-self.height/2, -self.height/2, self.height/2, self.height/2, -self.height/2],
                                   'k-', color='black', lw=2)
 
+
         margin = 20
-        #length = np.sqrt(self.width**2 + self.height**2) * 0.8
+
+        # the arrow coordinates
         length = np.max([float(self.width), float(self.height)])/2 * 0.8 + 10
         arrow = length * 0.2
         px = np.cos(np.deg2rad(self.alpha)) * length
@@ -411,6 +464,13 @@ class ExampleBeam():
         self.arrow[0], = plt.plot([0, px], [0, py], 'k-', color='red', lw=3, label='Load F')
         self.arrow[1], = plt.plot([0, ax], [0, ay], 'k-', color='red', lw=3)
         self.arrow[2], = plt.plot([0, ax2], [0, ay2], 'k-', color='red', lw=3)
+
+
+        # draw arc for torsion
+        pa_x, pa_y, arx, ary, arx2, ary2 = self.__get_arc_points(0, 0, length/2, 180, 360)
+        self.arrow[3], = plt.plot(pa_x, pa_y, 'k-', color='orange', lw=3, label='Torsion T')
+        self.arrow[4], = plt.plot(arx, ary, 'k-', color='orange', lw=3)
+        self.arrow[5], = plt.plot(arx2, ary2, 'k-', color='orange', lw=3)
 
 
         # coordinate axis
@@ -434,3 +494,23 @@ class ExampleBeam():
         return canvas
 
 
+
+    def __get_arc_points(self, x, y, radius, start_a, stop_a):
+
+        # the arc
+        angles_rad = np.linspace(start_a, stop_a, 200) * 3.1415 / 180.0
+        p_x = np.cos(angles_rad[:]) * radius
+        p_y = np.sin(angles_rad[:]) * radius
+
+        # the arrow
+        ang = 135
+
+        a_x0 = np.cos(stop_a* 3.1415 / 180.0) * radius
+        a_y0 = np.sin(stop_a* 3.1415 / 180.0) * radius
+        a_x1 = np.cos((stop_a - ang) * 3.1415 / 180.0) * radius * 0.4
+        a_y1 = np.sin((stop_a - ang) * 3.1415 / 180.0) * radius * 0.4
+        a_x2 = np.cos((stop_a - ang + 90) * 3.1415 / 180.0) * radius * 0.4
+        a_y2 = np.sin((stop_a - ang + 90) * 3.1415 / 180.0) * radius * 0.4
+
+
+        return p_x, p_y, [a_x0, a_x0 + a_x1], [a_y0, a_y0 + a_y1], [a_x0, a_x0 + a_x2],  [a_y0, a_y0 + a_y2]

@@ -2,27 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19780618-5290-402e-81b4-48b3f9ab89b1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ME325.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ME325.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_06.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_06.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_07_SN-Diagram.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_07_SN-Diagram.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_08_Fatigue_diagram.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_08_Fatigue_diagram.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_09.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_09.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_1_Brittle_Failure_Theory.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_1_Brittle_Failure_Theory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_2_Brittle_Failure_Theory.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_2_Brittle_Failure_Theory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_3_Ductile_Failure_Theory.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_3_Ductile_Failure_Theory.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_4_von_Mises_vs_Tresca.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_4_von_Mises_vs_Tresca.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Example_5_dimension_comparison.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Example_5_dimension_comparison.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FailureTheories.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FailureTheories.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/FailureTheories.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ME325Common/FatigueFailureTheories.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ME325Common/StressCalc.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ME325Common/StressUtils.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Solution_HW2.py" beforeDir="false" afterPath="$PROJECT_DIR$/legacy/Solution_HW2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/widget_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/DuctileFailureTheory02.py" beforeDir="false" afterPath="$PROJECT_DIR$/DuctileFailureTheory02.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ME325Common/PlotHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/PlotHelpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ME325Common/example_beam.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/example_beam.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -53,29 +35,36 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DuctileFailureTheory02.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="168" column="23" selection-start-line="168" selection-start-column="4" selection-end-line="168" selection-end-column="23" />
+            <state relative-caret-position="-1421">
+              <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
               <folding>
                 <element signature="e#949#964#0" expanded="true" />
-                <element signature="e#7788#7966#0" />
+                <element signature="e#3382#5423#0" />
+                <element signature="e#5435#5998#0" />
+                <element signature="e#7017#8123#0" />
+                <element signature="e#7094#7753#0" />
+                <element signature="e#10683#10962#0" />
                 <element signature="e#10537#10787#0" />
-                <element signature="e#9117#9248#0" />
+                <element signature="e#10723#11625#0" />
+                <element signature="e#11415#11723#0" />
+                <element signature="e#10381#10596#0" />
                 <element signature="e#13056#18436#0" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ME325Common/PlotHelpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1396">
-              <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+            <state relative-caret-position="423">
+              <caret line="78" column="86" selection-start-line="78" selection-start-column="86" selection-end-line="78" selection-end-column="86" />
               <folding>
                 <element signature="e#16#31#0" expanded="true" />
+                <element signature="e#2402#4066#0" />
               </folding>
             </state>
           </provider>
@@ -84,10 +73,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ME325Common/example_beam.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-811">
-              <caret line="351" column="79" selection-start-line="351" selection-start-column="79" selection-end-line="351" selection-end-column="79" />
+            <state relative-caret-position="193">
+              <caret line="396" column="54" selection-start-line="396" selection-start-column="54" selection-end-line="396" selection-end-column="54" />
               <folding>
                 <element signature="e#2#17#0" expanded="true" />
+                <element signature="e#6800#6993#0" />
               </folding>
             </state>
           </provider>
@@ -115,12 +105,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Gerber_FoS</find>
-      <find>factor_of_safety</find>
-      <find>axisbg</find>
-      <find>sigma1_slider</find>
-      <find>draw_figure</find>
-      <find>plotVonMiesesFailureTheory</find>
       <find>load line</find>
       <find>example5</find>
       <find>load</find>
@@ -129,10 +113,8 @@
       <find>stress_ut_slider</find>
       <find>cb_tresca</find>
       <find>cb_mises</find>
-      <find>update_stresses</find>
       <find>vonMisesEq</find>
       <find>vonMisesFoS_str</find>
-      <find>Tresca_str</find>
       <find>Tresca_FoS_str</find>
       <find>pl_s</find>
       <find>sigma1_str</find>
@@ -144,7 +126,15 @@
       <find>width</find>
       <find>setDetails</find>
       <find>limit_torsion</find>
+      <find>update_stresses</find>
+      <find>input_window</find>
+      <find>sub_window_destroyed_callback</find>
+      <find>sub_button_use_callback</find>
+      <find>window</find>
+      <find>entry_s1</find>
       <find>show_vonMises</find>
+      <find>margin</find>
+      <find>Tresca_str</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -188,14 +178,14 @@
         <option value="$PROJECT_DIR$/ME325Common/SecondMoment.py" />
         <option value="$PROJECT_DIR$/ME325Common/ContinuumMechanics.py" />
         <option value="$PROJECT_DIR$/ME325Common/example_beam.py" />
-        <option value="$PROJECT_DIR$/ME325Common/PlotHelpers.py" />
         <option value="$PROJECT_DIR$/DuctileFailureTheory02.py" />
+        <option value="$PROJECT_DIR$/ME325Common/PlotHelpers.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="383" />
-    <option name="y" value="37" />
+    <option name="x" value="302" />
+    <option name="y" value="36" />
     <option name="width" value="1469" />
     <option name="height" value="1129" />
   </component>
@@ -428,15 +418,15 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="383" y="37" width="1469" height="1129" extended-state="0" />
+    <frame x="302" y="36" width="1469" height="1129" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24447514" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24447514" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32938856" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.37573963" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.37573963" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3964497" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -652,16 +642,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ME325Common/example_beam.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-811">
-          <caret line="351" column="79" selection-start-line="351" selection-start-column="79" selection-end-line="351" selection-end-column="79" />
-          <folding>
-            <element signature="e#2#17#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ME325Common/FailureTheories.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="990">
@@ -669,26 +649,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ME325Common/PlotHelpers.py">
+    <entry file="file://$PROJECT_DIR$/ME325Common/example_beam.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1396">
-          <caret line="134" lean-forward="true" selection-start-line="134" selection-end-line="134" />
+        <state relative-caret-position="193">
+          <caret line="396" column="54" selection-start-line="396" selection-start-column="54" selection-end-line="396" selection-end-column="54" />
           <folding>
-            <element signature="e#16#31#0" expanded="true" />
+            <element signature="e#2#17#0" expanded="true" />
+            <element signature="e#6800#6993#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/DuctileFailureTheory02.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="168" column="23" selection-start-line="168" selection-start-column="4" selection-end-line="168" selection-end-column="23" />
+        <state relative-caret-position="-1421">
+          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
           <folding>
             <element signature="e#949#964#0" expanded="true" />
-            <element signature="e#7788#7966#0" />
+            <element signature="e#3382#5423#0" />
+            <element signature="e#5435#5998#0" />
+            <element signature="e#7017#8123#0" />
+            <element signature="e#7094#7753#0" />
+            <element signature="e#10683#10962#0" />
             <element signature="e#10537#10787#0" />
-            <element signature="e#9117#9248#0" />
+            <element signature="e#10723#11625#0" />
+            <element signature="e#11415#11723#0" />
+            <element signature="e#10381#10596#0" />
             <element signature="e#13056#18436#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ME325Common/PlotHelpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="423">
+          <caret line="78" column="86" selection-start-line="78" selection-start-column="86" selection-end-line="78" selection-end-column="86" />
+          <folding>
+            <element signature="e#16#31#0" expanded="true" />
+            <element signature="e#2402#4066#0" />
           </folding>
         </state>
       </provider>

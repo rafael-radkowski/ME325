@@ -79,8 +79,8 @@ class DuctileMaterial_FailureTheory_02(Frame):
 
     #limits
     limit_yieldstress = 200 #N/mm^2
-    limit_load = 2000 # n
-    limit_torsion = 100 #Nm
+    limit_load = 3000 # n
+    limit_torsion = 300 #Nm
     limit_angle = 90 # deg
     limit_wh = 100 # mm
     limit_l = 1000 # mm
@@ -136,31 +136,12 @@ class DuctileMaterial_FailureTheory_02(Frame):
     Tresca_str = 0
     Tresca_FoS_str = 0
 
-
     # checkboxes
     cb_tresca = 0
     cb_mises = 0
 
-    # manual entry variables
-    input_window = None
-    entry_Sy = 0
-    entry_s1 = 0
-    entry_s2 = 0
-
     # canvas
-    window = 0
     canvas = 0
-
-    # the plot
-    axis = None
-    thefig = None
-
-    # plotted output data
-    mises_values = 0
-    tresca_values = [0,0,0,0,0,0]
-    sigma12_values = 0
-    load_line_values = 0
-
 
     # The example
     example = None
@@ -221,37 +202,26 @@ class DuctileMaterial_FailureTheory_02(Frame):
         self.Tresca_FoS_str = StringVar()
         self.Tresca_FoS_str.set("0")
 
-        self.entry_Sy = StringVar()
-        self.entry_Sy.set("0")
-        self.entry_s1 = StringVar()
-        self.entry_s1.set("0")
-        self.entry_s2 = StringVar()
-        self.entry_s2.set("0")
-
-
+        # the example calculations
         self.example = ExampleBeam()
         self.example.setLimits(self.limit_yieldstress, self.limit_load, self.limit_torsion, self.limit_angle, self.limit_wh, self.limit_l)
 
-
+        # the plot
         self.failure_theory_plts = DuctileFailureTheoriesPlot()
 
-
+        # init ui
         self.initUI()
+
+        # update ui
         self.update_values(0.0)
-        #self.plot()
-
-
-
 
     # ----------- Update the outputs ----------
 
     def update_plot(self):
         """
-        Update teh plot area
+        Update the plot area
         :return:
         """
-        plt.figure(1)
-
 
         Sy = self.yieldstress_var.get()
         F = self.Load_var.get()
@@ -265,60 +235,12 @@ class DuctileMaterial_FailureTheory_02(Frame):
         Ixx, Iyy = self.example.calcI(b, h)
         s1, s2, sx, sy = self.example.calcPrincipalStress(F, T, l, a)
 
-        #------------------------------------------------
-        # Update von Mises stres
-        if self.cb_mises.get() == 0:
-            Sy = 0
 
-        angles_rad = np.linspace(0, 360, 360) * 3.1415 / 180.0
-        mises_abs = np.sqrt(
-            np.cos(angles_rad[:]) ** 2 + np.sin(angles_rad[:]) ** 2 - np.cos(angles_rad[:]) * np.sin(angles_rad[:]))
-        mises_x = np.cos(angles_rad[:]) / mises_abs[:] * Sy
-        mises_y = np.sin(angles_rad[:]) / mises_abs[:] * Sy
-
-        self.mises_values.set_data(mises_x, mises_y)
-
-        # ------------------------------------------------
-        # Update Tresca stres
-        Sy = self.yieldstress_var.get()
-
-        if  self.cb_tresca.get() == 0:
-            Sy = 0
-
-        self.tresca_values[0].set_data([Sy, Sy], [0, Sy])
-        self.tresca_values[1].set_data([Sy, 0], [Sy, Sy])
-        self.tresca_values[2].set_data([0, -Sy], [Sy, 0])
-        self.tresca_values[3].set_data([-Sy, -Sy], [0, -Sy])
-        self.tresca_values[4].set_data([-Sy, 0], [-Sy, -Sy])
-        self.tresca_values[5].set_data([0, Sy], [-Sy, 0])
-
-        #---------------------------------------------------
-        # load line
-        flip = 1
-        if s1 < 0.00001 and s1 > -0.00001:
-            s1 = 0.00001
-        if s1 < 0.0:
-            flip = -1;
-
-        slope_load_line = s2 / s1;
-        self.load_line_values.set_data([0.0,flip * 400], [0.0,slope_load_line * 400 * flip])
-
-
-        # ------------------------------------------------
-        # Update principal stress
-        self.sigma12_values.set_data([s1], [s2])
-
-        # ------------------------------------------------
-        # Update limits
-        Sy = self.yieldstress_var.get()
-
-        plt.figure(1)
-        plt.xlim(-Sy - 40, Sy + 40)
-        plt.ylim(-Sy - 40, Sy + 40)
-
+        # Update the plot
+        self.failure_theory_plts.update_plot(Sy, s1, s2)
         self.canvas.draw_idle()
 
-    def update_stresses(self):
+    def update_output_display(self):
         """
         Update the output display, the stresses and factor of safeties this
         panel shows.
@@ -357,8 +279,6 @@ class DuctileMaterial_FailureTheory_02(Frame):
             self.Tresca_FoS_str.set("Inf")
 
 
-
-
     # ---------Widget callbacks ---------------
 
     def update_values(self, val):
@@ -390,7 +310,7 @@ class DuctileMaterial_FailureTheory_02(Frame):
         self.length_str.set(str(self.length_var.get()))
 
         self.update_plot()
-        self.update_stresses()
+        self.update_output_display()
 
     def cb_update(self):
         """
@@ -398,6 +318,8 @@ class DuctileMaterial_FailureTheory_02(Frame):
         Checkboxes do not pass any arguments to the function
         :return:
         """
+        self.failure_theory_plts.showVonMisesPlt(int(self.cb_mises.get()))
+        self.failure_theory_plts.showTrescaPlt(int(self.cb_tresca.get()))
         self.update_values(0)
 
     def key_callback(self, event):
@@ -411,8 +333,7 @@ class DuctileMaterial_FailureTheory_02(Frame):
         elif event.char == 'd':
             self.example.createDetailsWindow(self.master)
 
-
-    def sub_button_use_callback(self):
+    def manual_entry_callback(self):
         """
         Apply the values that the user set in the sub window
         :return:
@@ -435,89 +356,29 @@ class DuctileMaterial_FailureTheory_02(Frame):
         except ValueError:
             print("Something went wrong - invalid numbers")
 
-    def sub_window_destroyed_callback(self):
-        """
-        Destroy the subwindow
-        :return:
-        """
-        self.input_window.destroy()
-        self.input_window = None
-
 
     # ------------ Inits ---------------
 
     def create_subwindow(self):
-
-
-        self.example.createManualEntryMenu(self.master, self.sub_button_use_callback)
+        """
+        Create a window that allows a user to manually enter all the values
+        instead of using sliders
+        :return:
+        """
+        self.example.createManualEntryMenu(self.master, self.manual_entry_callback)
         self.example.setMenuValue(self.yieldstress_str.get(), self.Load_str.get(), self.Torsion_str.get(),self.Angle_str.get(),
                                   self.height_str.get(), self.width_str.get(), self.length_str.get())
 
+
     def create_plot(self):
         """
-        Create the plot and the plot area
+        Create the plot that shows the failure theories
         :return:
         """
-
-        plt.figure(1)
-        fig, self.axis = plt.subplots(figsize=(8, 8), num=1)
-        plt.subplots_adjust(left=0.15, bottom=0.15)
-        fig.set_size_inches(9, 9, forward=True)
-
-        Sy = self.yieldstress_default
-        F = self.Load_var.get()
-        T = self.Torsion_var.get()
-        a = self.Angle_var.get()
-        l = self.length_var.get()
-
-        # Calculate streses
-        self.example.calcI(1,1)
-        s1, s2, sx, sy = self.example.calcPrincipalStress(F, T, l, a)
-
-
-        # Von Mises stress
-
-        angles_rad = np.linspace(0, 360, 360) * 3.1415 / 180.0
-        mises_abs = np.sqrt(
-            np.cos(angles_rad[:]) ** 2 + np.sin(angles_rad[:]) ** 2 - np.cos(angles_rad[:]) * np.sin(angles_rad[:]))
-        mises_x = np.cos(angles_rad[:]) / mises_abs[:] * Sy
-        mises_y = np.sin(angles_rad[:]) / mises_abs[:] * Sy
-
-        self.mises_values, = plt.plot(mises_x, mises_y, color='orange', label='von Mises')
-
-        # Tresca stress
-        color = 'purple'
-        linewidth = 1
-
-        self.tresca_values[0], = plt.plot([Sy, Sy], [0, Sy], 'k-', color=color, lw=linewidth, label='Tresca')
-        self.tresca_values[1], = plt.plot([Sy, 0], [Sy, Sy], 'k-', color=color, lw=linewidth)
-        self.tresca_values[2], = plt.plot([0, -Sy], [Sy, 0], 'k-', color=color, lw=linewidth)
-        self.tresca_values[3], = plt.plot([-Sy, -Sy], [0, -Sy], 'k-', color=color, lw=linewidth)
-        self.tresca_values[4], = plt.plot([-Sy, 0], [-Sy, -Sy], 'k-', color=color, lw=linewidth)
-        self.tresca_values[5], = plt.plot([0, Sy], [-Sy, 0], 'k-', color=color, lw=linewidth)
-
-        # load line
-        if s1 < 0.00001 and s1 > -0.00001:
-            s1 = 0.00001
-        slope_load_line = s2 / s1 * 400;
-        self.load_line_values, = plt.plot([0.0, 400], [0.0, slope_load_line], 'k--')
-
-        # Principal stress
-        self.sigma12_values, = plt.plot([s1], [s2], 'ro')
-
-        # fig = Figure(figsize=(5, 4), dpi=100)
-        # fig.add_subplot(111).plot(mises_x, mises_y)
-
-        plt.figure(1)
-        plt.grid()
-        plt.xlabel(r'$\sigma_1\;\;\left(\frac{N}{mm^2}\right)$')
-        plt.ylabel(r'$\sigma_3\;\;\left(\frac{N}{mm^2}\right)$')
-        plt.xlim(-Sy - 40, Sy + 40)
-        plt.ylim(-Sy - 40, Sy + 40)
-        plt.legend()
-
-        self.canvas = FigureCanvasTkAgg(fig, master=self)  # A tk.DrawingArea.
+        fig = self.failure_theory_plts.create_plots(9) # 9 -> figure size
+        self.canvas = FigureCanvasTkAgg(fig, master=self)
         self.canvas.draw()
+
 
     def initUI(self):
         """
