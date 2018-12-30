@@ -17,20 +17,14 @@ rafael@iastate.edu
 All rights reserved
 """
 
-from pylab import *
-import numpy as np;
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, RadioButtons
-
 # Import the failure theory envelopes
-from FailureTheories import *
 from StressCalc import *
-from FatigueFailureTheories import *
 
+from ME325Common.FatigueFailureTheories import *
 
 Sut = 110 # kpsi
 Sy = 95 # kpsi,
-Se = 30 # kpsi, the endurance limit
+Se = 40 # kpsi, the endurance limit
 
 N_inv = 1E+7 # the infinte lifetime limit
 N_lcc = 1E+2 # low cycle to high cycle switch.

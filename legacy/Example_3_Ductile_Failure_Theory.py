@@ -12,14 +12,11 @@ rafael@iastate.edu
 All rights reserved
 """
 
-from pylab import *
-import numpy as np;
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, RadioButtons
-
 # Import the failure theory envelopes
-from FailureTheories import *
-from StressCalc import *
+from ME325Common import *
+
+from ME325Common.StressCalc import *
+from ME325Common.FailureTheories import *
 
 ##-------------------------------------------------------
 ## Parameters
@@ -54,26 +51,26 @@ def example3(F, theory='Principle'):
     # ------------------------------------------------------------------------------
     #  Stress calculations
 
-    print '\n-------------------------------------------------'
+    print ('\n-------------------------------------------------')
 
     #compute the second moment of area and the second polar moment of area
     I2_zz = np.pi * (r2*2)**4 / 64.0
     It = np.pi * (2*r2)**4 / 32.0
-    print "I2zz:" , I2_zz
+    print ("I2zz:" , I2_zz)
 
     # bending stress at the mounting point
     sigma_max = (F * l2 * r2) / I2_zz
-    print "Sigma max: ", sigma_max/ 1000.0 , " kpsi"
+    print ("Sigma max: ", sigma_max/ 1000.0 , " kpsi")
 
     #compute the shear stress
     tau_max = F * l1 * r2 / It
-    print "Tau max: ", tau_max / 1000.0, " kpsi"
+    print ("Tau max: ", tau_max / 1000.0, " kpsi")
 
 
     # ------------------------------------------------------------------------------
     #  principle stresses calculation
     [s1, s2, alpha] = PrincipleStress([sigma_max], [tau_max])
-    print "Princ. stresses ", s1, "\t", s2, "\tat", alpha
+    print ("Princ. stresses ", s1, "\t", s2, "\tat", alpha)
 
     # helper for plotting, angle between stresses on the plot
     ang = arctan(s2/s1)
@@ -83,7 +80,7 @@ def example3(F, theory='Principle'):
     n2 = abs(Sy / (s2 / 1000.0));
 
     n_p = min(n1, n2)
-    print "Principle stress factor of safety: ", n_p
+    print( "Principle stress factor of safety: ", n_p)
 
 
     #-------------------------------------------------------------------------
@@ -95,9 +92,9 @@ def example3(F, theory='Principle'):
     vm_cos = axis * np.cos(ang) / norm * s_vm
     vm_sin = axis * np.sin(ang) / norm * s_vm
 
-    print "von Mises eqv. stress s_vm = ", s_vm, " psi (", vm_cos, ", ", vm_sin, ")"
+    print ("von Mises eqv. stress s_vm = ", s_vm, " psi (", vm_cos, ", ", vm_sin, ")")
     n_vm = abs(Sy / (s_vm / 1000.0))
-    print "von Mises factor of safety: ", n_vm
+    print ("von Mises factor of safety: ", n_vm)
 
     # -------------------------------------------------------------------------
     # Tresca stress
@@ -107,9 +104,9 @@ def example3(F, theory='Principle'):
     t_cos = 2.0 * np.cos(ang) * s_tresca
     t_sin = 2.0 * np.sin(ang) * s_tresca
 
-    print "Tresca eqv. stress s_t = ", s_tresca
+    print ("Tresca eqv. stress s_t = ", s_tresca)
     n_tresca = axis * (1000.0*Sy/2.0)/( s_tresca)
-    print "Tresca factor of safety n_t = ", n_tresca
+    print ("Tresca factor of safety n_t = ", n_tresca)
 
 
 
@@ -154,7 +151,7 @@ plt.title("Example 3 - Ductile Materia Failure Theories")
 
 # ----------------------------------------------------------------------------
 # Add a slider
-forceF = plt.axes([0.2, 0.02, 0.65, 0.03], axisbg='lightyellow')
+forceF = plt.axes([0.2, 0.02, 0.65, 0.03], facecolor='lightyellow')
 ForceFslider = Slider(forceF, 'Load', -4500.0, 4500.0, valinit=F)
 
 
@@ -173,14 +170,14 @@ ForceFslider.on_changed(update)
 # ----------------------------------------------------------------------------
 # Add a radiobutton
 
-#rax = plt.axes([0.13, 0.72, 0.15, 0.15], axisbg='white')
+#rax = plt.axes([0.13, 0.72, 0.15, 0.15], facecolor='white')
 #radio = RadioButtons(rax, ('Principle', 'vonMises'), active=0)
 
 def modefunc(label):
     global set_theory
     global current_val
     set_theory = label;
-    print "mode is now ", set_theory
+    print ("mode is now ", set_theory)
 
     [sigma_1, sigma_3, n] = example3(current_val, set_theory)
     pl_s.set_data([sigma_1 / 1000.0], [sigma_3 / 1000.0])

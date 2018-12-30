@@ -17,28 +17,27 @@ rafael@iastate.edu
 All rights reserved
 """
 
-from pylab import *
-import numpy as np;
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, RadioButtons
-
 # Import the failure theory envelopes
-from FailureTheories import *
 from StressCalc import *
-from FatigueFailureTheories import *
 
+from ME325Common.FatigueFailureTheories import *
 
 Sut = 110 # kpsi
 Sy = 95 # kpsi,
 Se = 33.8 # kpsi, the endurance limit
+
+Sut = 100 # kpsi
+Sy = 85 # kpsi,
+Se = 35.0 # kpsi, the endurance limit
+
 
 N_inv = 1E+7 # the infinte lifetime limit
 N_lcc = 1E+2 # low cycle to high cycle switch.
 
 
 
-sa = 20.0
-sm = 20.0
+sa = 21.0
+sm = 40.0
 
 
 def factor_of_safety(sa, sm, Se, Sut):
@@ -80,12 +79,12 @@ pl_ll, = plt.plot([0.0, 300], [0.0, load_line_slope(sa, sm)], 'k--')
 
 # Compute the initial factor of safety.
 fos_gerber, fos_goodman = factor_of_safety(sa, sm, Se, Sut)
-pl_text1 = text(5, 112, ["FoS Gerber", fos_gerber], fontsize=14)
-pl_text2 = text(5, 106, ["FoS Mod. Goodman", fos_goodman], fontsize=14)
+pl_text1 = text(5, 106, ["FoS Gerber", fos_gerber], fontsize=14)
+pl_text2 = text(5, 100, ["FoS Mod. Goodman", fos_goodman], fontsize=14)
 
 
 
-sa_slider_obj = plt.axes([0.1, 0.04, 0.3, 0.03], axisbg='lightyellow')
+sa_slider_obj = plt.axes([0.1, 0.02, 0.3, 0.03], axisbg='lightyellow')
 sa_slider = Slider(sa_slider_obj, 's_a', 0.0, 100.0, valinit=sa)
 # Update function for the slider
 def update1(val):
@@ -111,8 +110,8 @@ sa_slider.on_changed(update1)
 
 
 
-sm_slider_obj = plt.axes([0.55, 0.04, 0.3, 0.03], axisbg='lightyellow')
-sm_slider = Slider(sm_slider_obj, 's_m', 0.0, 100.0, valinit=sa)
+sm_slider_obj = plt.axes([0.55, 0.02, 0.3, 0.03], axisbg='lightyellow')
+sm_slider = Slider(sm_slider_obj, 's_m', 0.0, 100.0, valinit=sm)
 # Update function for the slider
 def update2(val):
     global T1
@@ -133,6 +132,31 @@ def update2(val):
 
     fig2.canvas.draw_idle()
 sm_slider.on_changed(update2)
+
+
+
+#se_slider_obj = plt.axes([0.1, 0.06, 0.3, 0.03], axisbg='lightyellow')
+#se_slider = Slider(se_slider_obj, 's_e', 0.0, 100.0, valinit=Se)
+#def update3(val):
+#    global T1
+
+#    Se = val
+
+    # update the point
+#    pl_s1.set_data([sm], [sa])
+
+    # update load lines
+#    pl_ll.set_data([0.0, 300], [0.0, load_line_slope(sa, sm)])
+
+    # Update the factor of safety
+ #   fos_gerber, fos_goodman = factor_of_safety(sa, sm, Se, Sut)
+ #   pl_text1.set_text(["FoS Gerber", fos_gerber])
+ #   pl_text2.set_text(["FoS Mod. Goodman", fos_goodman])
+
+
+ #   fig2.canvas.draw_idle()
+#se_slider.on_changed(update3)
+
 
 
 plt.show()

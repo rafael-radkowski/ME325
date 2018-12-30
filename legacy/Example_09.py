@@ -1,15 +1,8 @@
-
-from pylab import *
-import numpy as np;
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, RadioButtons
-
 # Import the failure theory envelopes
-from FailureTheories import *
+from ME325Common.FailureTheories import *
 from StressCalc import *
-from FatigueFailureTheories import *
 
-
+from ME325Common.FatigueFailureTheories import *
 
 # dimensions, all in inch
 l1 = 1

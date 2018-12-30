@@ -10,15 +10,9 @@ rafael@iastate.edu
 All rights reserved
 """
 
-from pylab import *
-import numpy as np;
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider, Button, RadioButtons
-
 # Import the failure theory envelopes
-from FailureTheories import *
-from StressCalc import *
 
+from ME325Common.StressCalc import *
 
 '#' """
 ##################################################################
