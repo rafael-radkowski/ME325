@@ -30,6 +30,9 @@ from PIL import Image, ImageTk
 
 import numpy as np
 
+# base class for plots
+from ME325Common.PlotBase import *
+
 class ExampleBeam():
     """
             /\ y
@@ -104,6 +107,9 @@ class ExampleBeam():
     circle = 0
     circle_txt = 0
 
+    #plot number
+    plot_number = 0
+
     def __init__(self):
         self.img = Image.open("resources/Example_01.png")
         self.img = self.img.resize((300, 120), Image.ANTIALIAS)
@@ -125,6 +131,7 @@ class ExampleBeam():
         self.detail_I_yy = StringVar()
         self.detail_s_max = StringVar()
         self.detail_J_p = StringVar()
+        self.plot_number = PlotBase.GetPlotNumber()
 
 
     def setLimits(self, Sy_, L_, T_,  alpha_, wh_, l_):
@@ -370,7 +377,7 @@ class ExampleBeam():
         if self.plot_init == 0:
             return
 
-        plt.figure(2)
+        plt.figure(self.plot_number)
 
         self.circle.center = (self.width / 2, self.height / 2)
         self.circle_txt.set_position((self.width / 2 + 1.5, self.height / 2 + 1.5))
@@ -399,7 +406,7 @@ class ExampleBeam():
         self.arrow[4].set_data(arx, ary)
         self.arrow[5].set_data(arx2, ary2)
 
-        plt.figure(2)
+        plt.figure(self.plot_number)
 
         lim = np.max([float(self.width), float(self.height)])
         plt.xlim(-lim / 2 - margin, lim / 2 + margin)
@@ -420,7 +427,7 @@ class ExampleBeam():
         :return:
         """
         self.plot_init = 1
-        fig, ax = plt.subplots(figsize=(4, 4),num=2)
+        fig, ax = plt.subplots(figsize=(4, 4),num=self.plot_number)
         plt.subplots_adjust(left=0.15, bottom=0.15)
         fig.set_size_inches(4, 4, forward=True)
         canvas = FigureCanvasTkAgg(fig, master=toplevel)  # A tk.DrawingArea.

@@ -12,9 +12,10 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 import numpy as np
 
+# base class for plots
+from ME325Common.PlotBase import *
 
-
-class DuctileFailureTheoriesPlot():
+class DuctileFailureTheoriesPlot(PlotBase):
 
     fig  = None
     axis = None
@@ -34,11 +35,12 @@ class DuctileFailureTheoriesPlot():
 
     def __init__(self):
         self.linewidth = 1
+        self.plot_number = PlotBase.GetPlotNumber()
 
 
     def create_plots(self, figsize_):
         plt.figure(self.plot_number)
-        self.fig, self.axis = plt.subplots(figsize=(figsize_, figsize_), num=1)
+        self.fig, self.axis = plt.subplots(figsize=(figsize_, figsize_), num=self.plot_number)
         plt.subplots_adjust(left=0.15, bottom=0.15)
         self.fig.set_size_inches(figsize_, figsize_, forward=True)
 
