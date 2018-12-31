@@ -11,6 +11,7 @@ Dec 27, 2018
 All copyright reserved
 """
 
+
 g_plot_number = 0
 
 
@@ -25,6 +26,16 @@ class PlotBase():
         """
         global g_plot_number
         g_plot_number = g_plot_number + 1
-        print(g_plot_number)
         return g_plot_number
 
+
+    @staticmethod
+    def SaveFigure( fig, path_and_file):
+        """
+        Save the figure
+        :param fig: reference to the figure
+        :param path_and_file: string with the relative or absolute path and filename.
+                    Note that the ending needs to be .png or .jpg, the file type to save.
+        :return:
+        """
+        fig.savefig(path_and_file)

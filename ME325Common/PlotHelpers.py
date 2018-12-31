@@ -11,11 +11,17 @@ from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 import numpy as np
+import datetime
+
 
 # base class for plots
 from ME325Common.PlotBase import *
 
+
 class DuctileFailureTheoriesPlot(PlotBase):
+    """
+    Generates a plot showing the failure theories for ductile materials.
+    """
 
     fig  = None
     axis = None
@@ -144,6 +150,14 @@ class DuctileFailureTheoriesPlot(PlotBase):
         self.show_Tresca = show_
 
 
+    def save_plot(self):
+        plt.figure(self.plot_number)
+        now = datetime.datetime.now()
+        path = str("./Material_Failure_Plot_" + str(now) + ".png")
+        PlotBase.SaveFigure(self.fig, path )
+        return path
+
+
 
     def __get_vonMisesValues(self, Sy):
         # Von Mises stress
@@ -176,3 +190,115 @@ class DuctileFailureTheoriesPlot(PlotBase):
         ty = [[0, Sy], [Sy, Sy], [Sy, 0], [0, -Sy], [-Sy, -Sy], [-Sy, 0]]
 
         return tx, ty
+
+
+class SNDiagramPlot(PlotBase):
+
+    plot_number = 0
+
+    load_line_plt = 0
+    life_line_plt = 0
+    sn_plt = [0,0,0]
+    linewidth = 1.0
+    fig = 0
+    axis = 0
+
+    text_plt = [0,0]
+
+    unit_str = 'kpsi'
+
+    # SN parameters
+
+
+    def __init__(self):
+        self.plot_number = PlotBase.GetPlotNumber()
+
+
+
+    def create_plot(self, figsize_x, figsize_y):
+        plt.figure(self.plot_number)
+        self.fig, self.axis = plt.subplots(figsize=(figsize_x, figsize_y), num=self.plot_number)
+        plt.subplots_adjust(left=0.15, bottom=0.15)
+        self.fig.set_size_inches(figsize_x, figsize_y, forward=True)
+
+        Sut = 110  # kpsi
+        Sy = 95  # kpsi,
+        Se = 40  # kpsi, the endurance limit
+
+        N_inv = 1E7  # the infinte lifetime limit
+        N_lcc = 1E2  # low cycle to high cycle switch.
+        max_n = 1E10
+
+        self.sn_plt[0], = plt.plot([1, N_lcc], [Sut, Sy], 'k-', color='b', lw=self.linewidth)
+        self.sn_plt[1], = plt.plot([N_lcc, N_inv], [Sy, Se], 'k-', color='b', lw=self.linewidth)
+        self.sn_plt[2], = plt.plot([N_inv, max_n], [Se, Se], 'k-', color='b', lw=self.linewidth)
+
+        self.load_line_plt, =  plt.plot([1, N_inv], [Se+10, Se+10], 'k--', color='black', lw=self.linewidth)
+        self.life_line_plt, = plt.plot([1E4, 1E4], [0, Sut], 'k--', color='black', lw=self.linewidth)
+
+        self.text_plt[0] = plt.text(1.2, Se+1, str(str(Se+10) + " kpsi"), color='blue', fontsize=10)
+        self.text_plt[1] = plt.text(1E4, 1.0, str(str(1E4)), color='blue', fontsize=10)
+
+        plt.grid()
+        plt.xlabel("Iterations [log(N)]", fontsize = 11)
+        plt.ylabel(str(r"Fatigue strength $S_f$ [" + self.unit_str + "]"), fontsize = 11 )
+
+        plt.figure(self.plot_number)
+        self.axis.set_xscale("log", nonpos='clip')
+        self.axis.set_xlim([1, max_n])
+        self.axis.set_ylim([0, Sut + 10])
+
+        return self.fig
+
+
+    def update_plot(self, Sut, Sy, Se, N_lcc, N_inv, curr_N, curr_Sf):
+        """
+
+        :param Sut: Ultimate tensile strength
+        :param Sy:  Yield strength
+        :param Se: Endurance limit
+        :param N_lcc: low cycle limit iterations
+        :param N_inv: endurance limit iterations
+        :param curr_N: current N
+        :param curr_Sf: current Sf for curr_N
+        :return:
+        """
+
+        # dummy value indicating an area outside the plot
+        max_n = 1E10
+
+        plt.figure(self.plot_number)
+
+        self.sn_plt[0].set_data([1, N_lcc], [Sut, Sy])
+        self.sn_plt[1].set_data([N_lcc, N_inv], [Sy, Se])
+        self.sn_plt[2].set_data([N_inv, max_n], [Se, Se])
+
+        if curr_Sf < Se:
+            curr_N = max_n
+
+        self.load_line_plt.set_data([1, curr_N], [curr_Sf, curr_Sf])
+        self.life_line_plt.set_data([curr_N, curr_N], [0, curr_Sf])
+
+
+        self.text_plt[0].set_text(str(str(round(curr_Sf,2)) + " " + self.unit_str))
+        self.text_plt[0].set_position(( 1.2, curr_Sf+1))
+
+        if curr_Sf > Se or curr_N < N_inv:
+            # check for limits
+            curr_N = np.max([curr_N, 1])
+            self.text_plt[1].set_text(str(int(curr_N )))
+            self.text_plt[1].set_position(( curr_N, 1.2))
+        else:
+            self.text_plt[1].set_text("Infinite life")
+            self.text_plt[1].set_position((N_inv, 1.2))
+
+
+        self.axis.set_ylim([0, Sut + 10])
+
+
+    def save_plot(self):
+        plt.figure(self.plot_number)
+        now = datetime.datetime.now()
+        path_and_file = str("./SNDiagram_" + str(now) + ".png")
+        PlotBase.SaveFigure(self.fig, path_and_file )
+        return path_and_file

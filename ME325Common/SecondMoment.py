@@ -52,3 +52,22 @@ class SecondMoment():
         """
         # from  https://www.engineersedge.com/polar-moment-inertia.htm
         return (b * h*(b**2 + h**2))/12
+
+    @staticmethod
+    def CircularArea(r):
+        """
+
+        :param r: radius
+        :return:
+        """
+
+        return [(np.pi * r**4)/4 , (np.pi * r**4) / 4]
+
+    @staticmethod
+    def PolarCircularArea(r):
+        """
+        https://www.fxsolver.com/browse/formulas/Polar+Moment+of+Area+-+Circular+Cross+Section
+        :param r:  radius
+        :return:
+        """
+        return (np.pi * r ** 4) / 2
