@@ -1,21 +1,25 @@
 
-
-
 # matplotlib
 import platform
 import matplotlib
+import matplotlib.patches as mpatches
 if platform.system() == 'Darwin':
     matplotlib.use("TkAgg")
 
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from ME325Common.WidgetHelpers import *
 
 import numpy as np
 import datetime
+import os
 
 
 # base class for plots
 from ME325Common.PlotBase import *
+
+
+g_plot_path = "./plots"
 
 
 class DuctileFailureTheoriesPlot(PlotBase):
@@ -30,7 +34,7 @@ class DuctileFailureTheoriesPlot(PlotBase):
     show_Tresca = 1
 
     mises_plt = 0
-    tresca_plt = [0,0,0,0,0,0]
+    tresca_plt = [0 ,0 ,0 ,0 ,0 ,0]
     load_line_plt = 0
     principal_stress_plt = 0
 
@@ -68,12 +72,12 @@ class DuctileFailureTheoriesPlot(PlotBase):
         self.tresca_plt[4], = plt.plot(tx[4], ty[4], 'k-', color=color, lw=self.linewidth)
         self.tresca_plt[5], = plt.plot(tx[5], ty[5], 'k-', color=color, lw=self.linewidth)
 
-        #self.tresca_plt[0], = plt.plot([Sy, Sy], [0, Sy], 'k-', color=color, lw=self.linewidth, label='Tresca')
-        #self.tresca_plt[1], = plt.plot([Sy, 0], [Sy, Sy], 'k-', color=color, lw=self.linewidth)
-        #self.tresca_plt[2], = plt.plot([0, -Sy], [Sy, 0], 'k-', color=color, lw=self.linewidth)
-        #self.tresca_plt[3], = plt.plot([-Sy, -Sy], [0, -Sy], 'k-', color=color, lw=self.linewidth)
-        #self.tresca_plt[4], = plt.plot([-Sy, 0], [-Sy, -Sy], 'k-', color=color, lw=self.linewidth)
-        #self.tresca_plt[5], = plt.plot([0, Sy], [-Sy, 0], 'k-', color=color, lw=self.linewidth)
+        # self.tresca_plt[0], = plt.plot([Sy, Sy], [0, Sy], 'k-', color=color, lw=self.linewidth, label='Tresca')
+        # self.tresca_plt[1], = plt.plot([Sy, 0], [Sy, Sy], 'k-', color=color, lw=self.linewidth)
+        # self.tresca_plt[2], = plt.plot([0, -Sy], [Sy, 0], 'k-', color=color, lw=self.linewidth)
+        # self.tresca_plt[3], = plt.plot([-Sy, -Sy], [0, -Sy], 'k-', color=color, lw=self.linewidth)
+        # self.tresca_plt[4], = plt.plot([-Sy, 0], [-Sy, -Sy], 'k-', color=color, lw=self.linewidth)
+        # self.tresca_plt[5], = plt.plot([0, Sy], [-Sy, 0], 'k-', color=color, lw=self.linewidth)
 
         s1 = 0
         s2 = 0
@@ -104,7 +108,7 @@ class DuctileFailureTheoriesPlot(PlotBase):
         if self.show_vonMises == 0:
             Sy_ = 0
 
-        #-----------------------------------------------------
+        # -----------------------------------------------------
         # von Mises plot
         mises_x, mises_y = self.__get_vonMisesValues(Sy_)
         self.mises_plt.set_data(mises_x, mises_y)
@@ -113,7 +117,7 @@ class DuctileFailureTheoriesPlot(PlotBase):
         if self.show_Tresca == 0:
             Sy_ = 0
 
-        #------------------------------------------------------
+        # ------------------------------------------------------
         # Tresca plot
         tx, ty = self.__get_Tresca_values(Sy_)
         self.tresca_plt[0].set_data(tx[0], ty[0])
@@ -191,29 +195,26 @@ class DuctileFailureTheoriesPlot(PlotBase):
 
         return tx, ty
 
+##---------------------------------------------------------
 
+##---------------------------------------------------------
 class SNDiagramPlot(PlotBase):
 
     plot_number = 0
 
     load_line_plt = 0
     life_line_plt = 0
-    sn_plt = [0,0,0]
+    sn_plt = [0 ,0 ,0]
     linewidth = 1.0
     fig = 0
     axis = 0
 
-    text_plt = [0,0]
+    text_plt = [0 ,0]
 
     unit_str = 'kpsi'
 
-    # SN parameters
-
-
     def __init__(self):
         self.plot_number = PlotBase.GetPlotNumber()
-
-
 
     def create_plot(self, figsize_x, figsize_y):
         plt.figure(self.plot_number)
@@ -233,10 +234,10 @@ class SNDiagramPlot(PlotBase):
         self.sn_plt[1], = plt.plot([N_lcc, N_inv], [Sy, Se], 'k-', color='b', lw=self.linewidth)
         self.sn_plt[2], = plt.plot([N_inv, max_n], [Se, Se], 'k-', color='b', lw=self.linewidth)
 
-        self.load_line_plt, =  plt.plot([1, N_inv], [Se+10, Se+10], 'k--', color='black', lw=self.linewidth)
+        self.load_line_plt, =  plt.plot([1, N_inv], [Se +10, Se +10], 'k--', color='black', lw=self.linewidth)
         self.life_line_plt, = plt.plot([1E4, 1E4], [0, Sut], 'k--', color='black', lw=self.linewidth)
 
-        self.text_plt[0] = plt.text(1.2, Se+1, str(str(Se+10) + " kpsi"), color='blue', fontsize=10)
+        self.text_plt[0] = plt.text(1.2, Se +1, str(str(Se +10) + " kpsi"), color='blue', fontsize=10)
         self.text_plt[1] = plt.text(1E4, 1.0, str(str(1E4)), color='blue', fontsize=10)
 
         plt.grid()
@@ -249,7 +250,6 @@ class SNDiagramPlot(PlotBase):
         self.axis.set_ylim([0, Sut + 10])
 
         return self.fig
-
 
     def update_plot(self, Sut, Sy, Se, N_lcc, N_inv, curr_N, curr_Sf):
         """
@@ -280,8 +280,8 @@ class SNDiagramPlot(PlotBase):
         self.life_line_plt.set_data([curr_N, curr_N], [0, curr_Sf])
 
 
-        self.text_plt[0].set_text(str(str(round(curr_Sf,2)) + " " + self.unit_str))
-        self.text_plt[0].set_position(( 1.2, curr_Sf+1))
+        self.text_plt[0].set_text(str(str(round(curr_Sf ,2)) + " " + self.unit_str))
+        self.text_plt[0].set_position(( 1.2, curr_Sf +1))
 
         if curr_Sf > Se or curr_N < N_inv:
             # check for limits
@@ -295,10 +295,686 @@ class SNDiagramPlot(PlotBase):
 
         self.axis.set_ylim([0, Sut + 10])
 
-
     def save_plot(self):
         plt.figure(self.plot_number)
         now = datetime.datetime.now()
         path_and_file = str("./SNDiagram_" + str(now) + ".png")
         PlotBase.SaveFigure(self.fig, path_and_file )
         return path_and_file
+
+##---------------------------------------------------------
+
+##---------------------------------------------------------
+class FatigueDiagramPlot(PlotBase):
+
+    __plot_number = None
+
+
+    def __init__(self):
+        __plot_number = super().GetPlotNumber()
+
+
+    def create_plot(self, figure_size):
+
+        return
+
+
+    def update_plot(self):
+
+        return
+
+"""
+##---------------------------------------------------------
+
+##---------------------------------------------------------
+"""
+class ModGoodmanDiagramPlot(PlotBase):
+    __plot_number = None
+
+
+    def __init__(self):
+        __plot_number = super().GetPlotNumber()
+
+
+    def create_plot(self, figure_size):
+        return
+
+
+    def update_plot(self):
+        return
+
+
+""""
+---------------------------------------------------------
+ Mohr's circle Plot
+---------------------------------------------------------
+"""
+class MohrsCirclePlot(PlotBase):
+
+    __plot_number = -1
+
+    __plot = [0 ,0 ,0, 0, 0, 0, 0]
+    __text_plt = [0, 0, 0]
+    __helper_plt = [0, 0, 0, 0, 0,0,0,0,0,0]
+    __acr_plt = [0,0,0,0]
+    __center_plt = [0,0]
+    __linewidth = 1
+
+    __unit_si = r"$\left(\frac{N}{mm^2}\right)$"
+    __unit_uscs = r"$\left( ksi \right)$"
+
+    def __init__(self):
+        self.__plot_number = PlotBase.GetPlotNumber()
+
+
+    def create_plot(self, figure_size):
+        plt.figure(self.__plot_number)
+        self.fig, self.axis = plt.subplots(figsize=(figure_size, figure_size), num=self.__plot_number)
+        plt.subplots_adjust(left=0.15, bottom=0.15)
+        self.fig.set_size_inches(figure_size, figure_size, forward=True)
+
+        sx = 20
+        sy = -20
+        txy = 10
+
+
+        s_mean, R = self.__calc_parameters(sx, sy, txy)
+        p_s13x, p_s13y  = self.__get_circular_area_plt(s_mean, 0, R)
+
+        # Kartesian line
+        self.__helper_plt[8], = plt.plot([sx, sy], [txy, -txy], 'k--', color='k', lw=self.__linewidth/2, visible=False)
+        self.__helper_plt[9], = plt.plot([sx, sy], [txy, -txy], 'k--', color='k', lw=self.__linewidth / 2,
+                                         visible=False)
+
+
+        self.__plot[0], = plt.plot(p_s13x, p_s13y, 'k-', color='k', lw=self.__linewidth)
+        self.__plot[1], = plt.plot([sx, sy], [txy, -txy], 'k--', color='k', lw=self.__linewidth, visible=True) #line
+        self.__plot[2], = plt.plot(sx, txy, 'o-', color='red', lw=self.__linewidth)
+        self.__plot[3], = plt.plot(sy, -txy,'o-', color='red', lw=self.__linewidth)
+        self.__plot[4], = plt.plot(s_mean, 0, 'o', fillstyle='none', color='red', lw=self.__linewidth)
+
+        self.__text_plt[0] = plt.text(sx-1, txy + 2, r"$\sigma_x$", color='red', fontsize=10)
+        self.__text_plt[1] = plt.text(sy-1, -txy + 2, r"$\sigma_y$", color='red', fontsize=10)
+        self.__text_plt[2] = plt.text(s_mean + 2, 2, r"$\sigma_{mean}$", color='red', fontsize=10)
+
+        # plot helpers
+        # sigma 1, 2
+        self.__helper_plt[0], = plt.plot(10, 0, 'o', fillstyle='none', color='red', lw=self.__linewidth, visible=False)
+        self.__helper_plt[1], = plt.plot(-10, 0,'o', fillstyle='none', color='red', lw=self.__linewidth, visible=False)
+        self.__helper_plt[2] = plt.text(20, 1, r"$\sigma_1$", color='red', fontsize=10, visible=False)
+        self.__helper_plt[3] = plt.text(-20, 1, r"$\sigma_3$", color='red', fontsize=10,  visible=False)
+
+        self.__helper_plt[4], = plt.plot(0, 10, 'o', fillstyle='none', color='red', lw=self.__linewidth, visible=False)
+        self.__helper_plt[5], = plt.plot(0, -10, 'o', fillstyle='none', color='red', lw=self.__linewidth, visible=False)
+        self.__helper_plt[6] = plt.text(0, 10, r"$\tau_{max}$", color='red', fontsize=10, visible=False)
+        self.__helper_plt[7] = plt.text(0, -10, r"$\tau_{max}$", color='red', fontsize=10, visible=False)
+
+        # create the arc
+        arcx, arcy, a11, a12, a21, a22 = self.__get_arc_plt(0, 0, R * 0.5, 0.0, 20)
+        self.__acr_plt[0], = plt.plot(arcx, arcy, 'k--', color='k', lw=self.__linewidth)
+        self.__acr_plt[1], = plt.plot(a11, a12, 'k--', color='k', lw=self.__linewidth)
+        self.__acr_plt[2], = plt.plot(a21, a22, 'k--', color='k', lw=self.__linewidth)
+        self.__acr_plt[3] = plt.text(0, -10, r"2$\theta$", color='red', fontsize=10, visible=True)
+
+        # center plot
+        self.__center_plt[0],  = plt.plot([-10,10], [0,0], 'k--', color='blue', lw=1.0)
+        self.__center_plt[1], = plt.plot([0, 0], [-10, 10], 'k--', color='blue', lw=1.0)
+
+
+        plt.grid()
+        plt.xlabel(str(r"Normal stress $\sigma$ " + self.__unit_si), fontsize=11)
+        plt.ylabel(str(r"Shear stress $\tau$ "+ self.__unit_si ), fontsize=11)
+
+        plt.figure(self.__plot_number)
+        length = np.max( [np.max([ sx/2 + 30, txy + 30]), sy/2 + 30])
+        self.axis.set_xlim([s_mean - length, s_mean + length])
+        self.axis.set_ylim([-length, length])
+
+        return self.fig
+
+
+    def update_plot(self, sx, sy, txy):
+        plt.figure(self.__plot_number)
+        s_mean, R = self.__calc_parameters(sx, sy, txy)
+        p_s13x, p_s13y = self.__get_circular_area_plt(s_mean, 0, R)
+
+        self.__plot[0].set_data(p_s13x, p_s13y)
+        self.__plot[1].set_data([sx, sy], [txy, -txy])
+        self.__plot[2].set_data(sx, txy)
+        self.__plot[3].set_data(sy, -txy)
+        self.__plot[4].set_data(s_mean,0)
+
+        self.__text_plt[0].set_position((sx + np.abs(0.05* R), txy + np.abs(0.05 * R))) # sx
+        self.__text_plt[1].set_position((sy - np.abs(0.1* R), -txy - np.abs(0.1 * R))) #sy
+        self.__text_plt[2].set_position((s_mean + np.abs(R * 0.05), np.abs(R * 0.05))) #s mean
+
+        plt.figure(self.__plot_number)
+        length = R +  R * 0.2 #np.max([np.max([np.abs(sx) / 2 + 30, np.abs(txy) + 30]), np.abs(sy) / 2 + 30])
+        self.axis.set_xlim([s_mean - length, s_mean + length])
+        self.axis.set_ylim([-length, length])
+
+
+
+    def update_helpers(self, s1, s2, a1, a2, t1, t2,  visible_):
+        plt.figure(self.__plot_number)
+
+        m = (s1 - s2)/2 + s2
+        r = (s1 - s2)/2
+
+        # principal stress circle
+        self.__helper_plt[0].set_data(s1, 0)
+        self.__helper_plt[1].set_data(s2, 0)
+        self.__helper_plt[0].set_visible(visible_)
+        self.__helper_plt[1].set_visible(visible_)
+
+        # principal stress text
+        self.__helper_plt[2].set_position((s1 - np.abs(r * 0.1), r * 0.05))
+        self.__helper_plt[3].set_position((s2, r * 0.05))
+        self.__helper_plt[2].set_visible(visible_)
+        self.__helper_plt[3].set_visible(visible_)
+
+        self.__helper_plt[2].set_text( str(str(r"$\sigma_1= $" + str(round(s1, 2)))))
+        self.__helper_plt[3].set_text( str( str(r"$\sigma_3= $" + str(round(s2,2)) )))
+
+        # max shear circle
+        self.__helper_plt[4].set_data(m, t1)
+        self.__helper_plt[5].set_data(m, t2)
+        self.__helper_plt[4].set_visible(visible_)
+        self.__helper_plt[5].set_visible(visible_)
+
+        # max shear line
+        self.__helper_plt[6].set_position((m-r * 0.05, t1+r * 0.05))
+        self.__helper_plt[7].set_position((m-r * 0.05, t2-r * 0.1))
+        self.__helper_plt[6].set_visible(visible_)
+        self.__helper_plt[7].set_visible(visible_)
+
+        self.__helper_plt[6].set_text(str(str(r"$\tau_{max}= $" + str(round(t1, 2)))))
+        self.__helper_plt[7].set_text(str(str(r"$-\tau_{max}=$" + str(round(t2, 2)))))
+
+        # update the angle
+        arcx, arcy, a11, a12, a21, a22 = self.__get_arc_plt(m, 0, r * 0.5, 0.0, a1 * 2)
+        self.__acr_plt[0].set_data(arcx, arcy)
+        self.__acr_plt[1].set_data(a11, a12)
+        self.__acr_plt[2].set_data(a21, a22)
+        self.__acr_plt[0].set_visible(visible_)
+        self.__acr_plt[1].set_visible(visible_)
+        self.__acr_plt[2].set_visible(visible_)
+
+        # center plot
+        a = r * 0.2
+        self.__center_plt[0].set_data([-a, a], [0, 0])
+        self.__center_plt[1].set_data([0, 0], [-a, a])
+        self.__center_plt[0].set_visible(visible_)
+        self.__center_plt[1].set_visible(visible_)
+
+        n = len(arcx)
+        if n != 0:
+            self.__acr_plt[3].set_position((arcx[int(n/2)], arcy[int(n/2)]))
+        else:
+            self.__acr_plt[3].set_position((m + r * 0.5,0))
+
+        self.__acr_plt[3].set_visible(visible_)
+
+        # Kartesian line
+        self.__helper_plt[8].set_data([s1, s2], [0,0])
+        self.__helper_plt[8].set_visible(visible_)
+        self.__helper_plt[9].set_data([m, m], [t1, t2])
+        self.__helper_plt[9].set_visible(visible_)
+
+
+
+    def __get_circular_area_plt(self, x, y, radius):
+        """
+        Calculate the points for a circle
+        :param x: center point x
+        :param y: center point y
+        :param radius: the radius of the circe.
+        :return:
+        """
+        angles_rad = np.linspace(0, 360, 360) * 3.1415 / 180.0
+        p_x = x + np.cos(angles_rad[:]) * radius
+        p_y = y + np.sin(angles_rad[:]) * radius
+
+        return p_x, p_y
+
+    def __get_arc_plt(self, x, y, radius, start_a, stop_a):
+        """
+        Calcuate the points to render an arc with an arrow.
+        :param x:
+        :param y:
+        :param radius:
+        :param start_a:
+        :param stop_a:
+        :return: arc_points_x, arc_points_y, arrow 1 start, arrow 1 end, arrow 2 start, arrow 2 end
+        """
+
+        # the arc
+        angles_rad = np.linspace(start_a, stop_a, np.abs(stop_a-start_a)) * 3.1415 / 180.0
+        p_x = np.cos(angles_rad[:]) * radius + x
+        p_y = np.sin(angles_rad[:]) * radius + y
+
+        # the arrow
+        ang = 135
+        if stop_a < 0:
+            ang = ang -180 # to flip the arrow head
+
+        a_x0 = np.cos(stop_a * 3.1415 / 180.0) * radius + x
+        a_y0 = np.sin(stop_a * 3.1415 / 180.0) * radius + y
+        a_x1 = np.cos((stop_a - ang) * 3.1415 / 180.0) * radius * 0.1
+        a_y1 = np.sin((stop_a - ang) * 3.1415 / 180.0) * radius * 0.1
+        a_x2 = np.cos((stop_a - ang + 90) * 3.1415 / 180.0) * radius * 0.1
+        a_y2 = np.sin((stop_a - ang + 90) * 3.1415 / 180.0) * radius * 0.1
+
+        return p_x, p_y, [a_x0, a_x0 + a_x1], [a_y0, a_y0 + a_y1], [a_x0, a_x0 + a_x2], [a_y0, a_y0 + a_y2]
+
+    def __calc_parameters(self, s_x, s_y, t_xy):
+        """
+        Calculate the radius and the center point of the circle
+        :param s_x: sigma x
+        :param s_y:  sigma y
+        :param t_xy: tau xy
+        :return: mean stress (circle center), and radius
+        """
+        s_mean = (s_x + s_y)/2
+        R = np.sqrt( ((s_x-s_y)/2)**2 + t_xy**2  )
+
+        return s_mean, R
+
+
+    def set_unit(self, unit):
+        """
+        Set the unit for this plot. It is either metric SI or USCS imperial
+        :param unit: unit index, 0=SI unitys, 1=USCS units
+        :return:
+        """
+
+        plt.figure(self.__plot_number)
+        if unit == 0:
+            plt.xlabel(str(r"Normal stress $\sigma$ " + self.__unit_si), fontsize=11)
+            plt.ylabel(str(r"Shear stress $\tau$ " + self.__unit_si), fontsize=11)
+        else:
+            plt.xlabel(str(r"Normal stress $\sigma$ " + self.__unit_uscs), fontsize=11)
+            plt.ylabel(str(r"Shear stress $\tau$ " + self.__unit_uscs), fontsize=11)
+
+
+
+    def save_plot(self):
+        try:
+            os.stat(g_plot_path)
+        except:
+            os.mkdir(g_plot_path)
+
+        try:
+            plt.figure(self.__plot_number)
+            now = datetime.datetime.now()
+            #now = datetime.now().strftime('%y-%m-%d_%I-%M-%S')
+            path_and_file = str("./plots/MohrsCircle_" + str(now) + ".png")
+            PlotBase.SaveFigure(self.fig, path_and_file )
+            return path_and_file
+        except:
+            print("Error - could not save plot")
+
+
+
+""""
+---------------------------------------------------------
+ Stress tensor 2D
+---------------------------------------------------------
+"""
+class CauchyStressPlanePlot(PlotBase):
+    __plot_number = -1
+
+    __box = [0, 0, 0, 0]
+    __arrows = [0, 0, 0, 0]
+    __text_plt = [0, 0, 0, 0]
+    __arc_plt = [0,0,0,0]
+    __linewidth = 1
+
+    __new_arrow = [0,0,0,0]
+
+    __unit_si = r"$\left(\frac{N}{mm^2}\right)$"
+    __unit_uscs = r"$\left( ksi \right)$"
+
+    __axis_length = 25
+
+
+    def __init__(self):
+        self.__plot_number = PlotBase.GetPlotNumber()
+
+
+
+    def create_plot(self, figure_size):
+        plt.figure(self.__plot_number)
+        self.fig, self.axis = plt.subplots(figsize=(figure_size, figure_size), num=self.__plot_number)
+        plt.subplots_adjust(left=0.15, bottom=0.15)
+        plt.grid()
+        self.fig.set_size_inches(figure_size, figure_size, forward=True)
+
+        ## Coordinate system
+        arrowx = mpatches.Arrow(0, 0, self.__axis_length * 0.9, 0.0, width=1.0, color='k')
+        self.axis.add_patch(arrowx)
+        arrowy = mpatches.Arrow(0, 0, 0.0, self.__axis_length * 0.9, width=1.0, color='k')
+        self.axis.add_patch(arrowy)
+
+        # static box
+        x,y = self.__get_box_coordinates( 20, 0)
+        self.__box[0], = plt.plot(x,y, 'k--', color='k')
+
+        # rotated box
+        px, py = self.__get_box_coordinates(20, 10)
+        self.__box[1], = plt.plot(px, py, 'k-', color='blue')
+
+        # ARROWS
+       # ax, ay = self.__get_arrow_coordinates( 20, 1, 0)
+        # s2 -> y
+       # ar1 = mpatches.Arrow(ax[0], ay[0], ax[1], ay[1], width=1.0, color='red')
+       # self.__arrows[0] = self.axis.add_patch(ar1)
+        # s2 -> -y
+       # ar2 = mpatches.Arrow(ax[2], ay[2], ax[3], ay[3], width=1.0, color='red')
+       # self.__arrows[1] = self.axis.add_patch(ar2)
+
+        # s1 -> x
+       # ar3 = mpatches.Arrow(ax[4], ay[4], ax[5], ay[5], width=1.0, color='red')
+       # self.__arrows[2] = self.axis.add_patch(ar3)
+        # s1 -> -x
+       # ar4 = mpatches.Arrow(ax[6], ay[6], ax[7], ay[7], width=1.0, color='red')
+       # self.__arrows[3] = self.axis.add_patch(ar4)
+
+        self.__text_plt[0] = plt.text(0, 10, r"$\sigma_1$", color='red', fontsize=10, visible=True)
+        self.__text_plt[1] = plt.text(0, -10, r"$\sigma_1$", color='red', fontsize=10, visible=True)
+        self.__text_plt[2] = plt.text(10, 0, r"$\sigma_3$", color='red', fontsize=10, visible=True)
+        self.__text_plt[3] = plt.text(-10, 0, r"$\sigma_3$", color='red', fontsize=10, visible=True)
+
+        ## angle arc
+
+        # create the arc
+        arcx, arcy, a11, a12, a21, a22 = self.__get_arc_plt(0, 0, 1 * 0.5, 0.0, 20)
+        self.__arc_plt[0], = plt.plot(arcx, arcy, 'k--', color='k', lw=self.__linewidth)
+        self.__arc_plt[1], = plt.plot(a11, a12, 'k--', color='k', lw=self.__linewidth)
+        self.__arc_plt[2], = plt.plot(a21, a22, 'k--', color='k', lw=self.__linewidth)
+        self.__arc_plt[3] = plt.text(0, -10, r"$\theta$", color='red', fontsize=10, visible=True)
+
+
+        self.__new_arrow[0] = Arrow(10, 0, 10, 0, 0)
+        self.__new_arrow[1] = Arrow(-10, 0, -10, 0, 0)
+        self.__new_arrow[2] = Arrow(0, 10, 0, 10, 0)
+        self.__new_arrow[3] = Arrow(0, -10, 0, -10, 0)
+
+       # x, y, a0, a1 = self.__get_arrow_points(10, 10, 10, 0, 0)
+        #self.__new_arrow[0], = plt.plot(x, y, 'k-', color='red', lw=self.__linewidth)
+        #self.__new_arrow[1], = plt.plot(a1, a1, 'k-', color='red', lw=self.__linewidth)
+
+        plt.xlabel(str(r"x"), fontsize=11)
+        plt.ylabel(str(r"y"), fontsize=11)
+
+        plt.figure(self.__plot_number)
+        self.axis.set_xlim([-self.__axis_length, self.__axis_length])
+        self.axis.set_ylim([-self.__axis_length, self.__axis_length])
+
+
+        return self.fig
+
+
+    def update_plot(self, s1, s2, a1):
+
+        try:
+            plt.figure(self.__plot_number)
+            px, py = self.__get_box_coordinates(20, a1)
+            self.__box[1].set_data(px, py)
+
+            ax, ay = self.__get_arrow_coordinates(20, 2.0, a1)
+
+
+
+          #  self.__arrows[0].remove()
+          #  self.__arrows[1].remove()
+            # s2 -> y
+          #  ar1 = mpatches.Arrow(ax[0], ay[0], ax[1], ay[1], width=1.0, color='red')
+          #  self.__arrows[0] = self.axis.add_patch(ar1)
+            # s2 -> -y
+          #  ar2 = mpatches.Arrow(ax[2], ay[2], ax[3], ay[3], width=1.0, color='red')
+          # self.__arrows[1] = self.axis.add_patch(ar2)
+
+
+
+          #  self.__arrows[2].remove()
+         #   self.__arrows[3].remove()
+            # s1 -> x
+           # ar3 = mpatches.Arrow(ax[4], ay[4], ax[5], ay[5], width=1.0, color='red')
+           # self.__arrows[2] = self.axis.add_patch(ar3)
+            # s1 -> -x
+          #  ar4 = mpatches.Arrow(ax[6], ay[6], ax[7], ay[7], width=1.0, color='red')
+          #  self.__arrows[3] = self.axis.add_patch(ar4)
+
+            ## Text positions
+            c = 1.8
+            self.__text_plt[0].set_position((ax[5]* c, ay[5]* c))  #s1
+            self.__text_plt[1].set_position((ax[7]* c - 2, ay[7]* c))  # s1
+            self.__text_plt[2].set_position((ax[1]* c, ay[1]* c))  # s2
+            self.__text_plt[3].set_position((ax[3]* c, ay[3]* c))  # s2
+
+
+            # update the angle
+            arcx, arcy, a11, a12, a21, a22 = self.__get_arc_plt(0, 0, 20/2 + 20/2 * 0.5, 0.0, a1)
+            self.__arc_plt[0].set_data(arcx, arcy)
+            self.__arc_plt[1].set_data(a11, a12)
+            self.__arc_plt[2].set_data(a21, a22)
+            n = len(arcx)
+            if n != 0:
+                self.__arc_plt[3].set_position((arcx[int(n / 2)], arcy[int(n / 2)]))
+            else:
+                self.__arc_plt[3].set_position(( 20/2 + 20/2 * 0.5,0))
+
+            self.__new_arrow[0].set(10, 0, 10, 0, a1, np.sign(s1))
+            self.__new_arrow[1].set(-10, 0, -10, 0, a1, np.sign(s1))
+            self.__new_arrow[2].set(0, 10, 0, 10, a1, np.sign(s2))
+            self.__new_arrow[3].set(0, -10, 0, -10, a1, np.sign(s2))
+
+        except ValueError:
+            print("ValueError")
+
+            return
+
+        except IndexError:
+            print("IndexError")
+            return
+
+    def save_plot(self):
+        try:
+            os.stat(g_plot_path)
+        except:
+            os.mkdir(g_plot_path)
+
+        try:
+            plt.figure(self.__plot_number)
+            now = datetime.datetime.now()
+            #now = datetime.now().strftime('%y-%m-%d_%I-%M-%S')
+            path_and_file = str("./plots/StressElement_" + str(now) + ".png")
+            PlotBase.SaveFigure(self.fig, path_and_file )
+            return path_and_file
+        except:
+            print("Error - could not save plot")
+
+
+    def __get_box_coordinates(self, length, angle):
+
+        px = []
+        py = []
+
+        l = length / 2
+
+        #  cos  -sin
+        #  sin  cos
+
+        #(l, -l)
+        x = l
+        y = -l
+        p1x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p1y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p1x)
+        py.append(p1y)
+
+        #(l, l)
+        x = l
+        y = l
+        p2x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p2y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p2x)
+        py.append(p2y)
+
+        # (-l, l)
+        x = -l
+        y = l
+        p3x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p3y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p3x)
+        py.append(p3y)
+
+        # (-l, -l)
+        x = -l
+        y = -l
+        p4x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p4y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p4x)
+        py.append(p4y)
+
+        px.append(p1x)
+        py.append(p1y)
+
+        return px, py
+
+    def __get_arrow_coordinates(self, box_side_length, arrow_length, angle):
+
+
+        l = box_side_length / 2;
+
+
+        px = []
+        py = []
+
+
+        #  cos  -sin
+        #  sin  cos
+
+        # (0, l)
+        x = 0
+        y = l
+        p1x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p1y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p1x)
+        py.append(p1y)
+
+        # (0, l + arrow_length)
+        x = 0
+        y = l + arrow_length
+        p2x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p2y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p2x)
+        py.append(p2y)
+
+        # (0, -l)
+        x = 0
+        y = -l
+        p3x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p3y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p3x)
+        py.append(p3y)
+
+        # (0, -l - arrow_length)
+        x = 0
+        y = -l - arrow_length
+        p4x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p4y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p4x)
+        py.append(p4y)
+
+
+        ###
+        # x
+
+        # (0, l)
+        x = l
+        y = 0
+        p5x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p5y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p5x)
+        py.append(p5y)
+
+        # (0, l + arrow_length)
+        x = l + arrow_length
+        y = 0
+        p6x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p6y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p6x)
+        py.append(p6y)
+
+
+        # (0, -l)
+        x = -l
+        y = 0
+        p7x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p7y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p7x)
+        py.append(p7y)
+
+        # (0, l + arrow_length)
+        x = -l - arrow_length
+        y = 0
+        p8x = x * np.cos(np.deg2rad(angle)) - y * np.sin(np.deg2rad(angle))
+        p8y = x * np.sin(np.deg2rad(angle)) + y * np.cos(np.deg2rad(angle))
+        px.append(p8x)
+        py.append(p8y)
+
+        return px, py
+
+    def __get_arc_plt(self, x, y, radius, start_a, stop_a):
+        """
+        Calcuate the points to render an arc with an arrow.
+        :param x:
+        :param y:
+        :param radius:
+        :param start_a:
+        :param stop_a:
+        :return: arc_points_x, arc_points_y, arrow 1 start, arrow 1 end, arrow 2 start, arrow 2 end
+        """
+
+        # the arc
+        angles_rad = np.linspace(start_a, stop_a, np.abs(stop_a-start_a)) * 3.1415 / 180.0
+        p_x = np.cos(angles_rad[:]) * radius + x
+        p_y = np.sin(angles_rad[:]) * radius + y
+
+        # the arrow
+        ang = 135
+        if stop_a < 0:
+            ang = ang -180 # to flip the arrow head
+
+        a_x0 = np.cos(stop_a * 3.1415 / 180.0) * radius + x
+        a_y0 = np.sin(stop_a * 3.1415 / 180.0) * radius + y
+        a_x1 = np.cos((stop_a - ang) * 3.1415 / 180.0) * radius * 0.1
+        a_y1 = np.sin((stop_a - ang) * 3.1415 / 180.0) * radius * 0.1
+        a_x2 = np.cos((stop_a - ang + 90) * 3.1415 / 180.0) * radius * 0.1
+        a_y2 = np.sin((stop_a - ang + 90) * 3.1415 / 180.0) * radius * 0.1
+
+        return p_x, p_y, [a_x0, a_x0 + a_x1], [a_y0, a_y0 + a_y1], [a_x0, a_x0 + a_x2], [a_y0, a_y0 + a_y2]
+
+
+    def __get_arrow_points(self, p0x, p0y, d1x, d1y, angle ):
+
+        l = np.sqrt(  (d1x-p0x)**2 + (d1y-p0y)**2  )
+
+        #  cos  -sin
+        #  sin  cos
+        r1x = p0x * np.cos(np.deg2rad(angle)) - p0y * np.sin(np.deg2rad(angle))
+        r1y = p0x * np.sin(np.deg2rad(angle)) + p0y * np.cos(np.deg2rad(angle))
+
+        r2x = (p0x + d1x) * np.cos(np.deg2rad(angle)) - (p0y+d1y) * np.sin(np.deg2rad(angle))
+        r2y = (p0x + d1x) * np.sin(np.deg2rad(angle)) + (p0y+d1y) * np.cos(np.deg2rad(angle))
+
+
+        a2x = (p0x + d1x - l * 0.15) * np.cos(np.deg2rad(angle)) - (p0y + d1y - l * 0.1) * np.sin(np.deg2rad(angle))
+        a2y = (p0x + d1x - l * 0.15) * np.sin(np.deg2rad(angle)) + (p0y + d1y - l * 0.1) * np.cos(np.deg2rad(angle))
+
+        a3x = (p0x + d1x - l * 0.15) * np.cos(np.deg2rad(angle)) - (p0y + d1y + l * 0.1) * np.sin(np.deg2rad(angle))
+        a3y = (p0x + d1x - l * 0.15) * np.sin(np.deg2rad(angle)) + (p0y + d1y + l * 0.1) * np.cos(np.deg2rad(angle))
+
+        return [r1x, r2x], [r1y, r2y], [ a2x, r2x, a3x], [ a2y, r2y, a3y]

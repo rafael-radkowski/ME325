@@ -72,6 +72,8 @@ class DataEntryMenu():
 
         except ValueError:
             print("Something went wrong - invalid values")
+        except  KeyError:
+            return
 
 
 
