@@ -56,8 +56,8 @@ class Arrow():
 
     def __create_arrow(self):
         px, py, ax, ay = self.__get_arrow_points(self.px, self.py, self.dx, self.dy, self.ang)
-        self.arrow, = plt.plot(px, py, 'k-', color=self.col, lw=self.linewidth)
-        self.head, = plt.plot(ax, ay, 'k-', color=self.col, lw=self.linewidth)
+        self.arrow, = plt.plot(px, py, 'k-', color=self.col, lw=self.linewidth, alpha=0.8)
+        self.head, = plt.plot(ax, ay, 'k-', color=self.col, lw=self.linewidth, alpha=0.8)
 
 
 
@@ -81,7 +81,7 @@ class Arrow():
         # arrow head
         ang = np.deg2rad(self.arrowhead_angle)
         avx = -vx * 0.2 * flip_head
-        avy = -vy * 0.15 * flip_head
+        avy = -vy * 0.2 * flip_head
         avx1 = avx * np.cos(ang) - avy * np.sin(ang)
         avy1 = avx * np.sin(ang) + avy * np.cos(ang)
         ang = np.deg2rad(-self.arrowhead_angle)

@@ -10,9 +10,6 @@ from typing import NamedTuple
 
 from ME325Common.PlotHelpers import *
 
-
-
-
 class SNData():
     Sut = 1     # ultimate tensile strength
     Sy = 1      # yield strength
@@ -35,8 +32,6 @@ class SNData():
         self.Se = se_
         self.Nlow = nlow_
         self.Nend = nend_
-
-
 
 class SNDiagram():
     """
@@ -96,3 +91,37 @@ class SNDiagram():
             e = (target_Sf - b) / a
             itr = np.exp(e)
             return itr
+
+
+class FatigueDiagram():
+
+    def __init__(self):
+        pass
+
+
+    @staticmethod
+    def calc_mod_Goodman_FoS(Sa, Sm, Se, Sut ):
+        f = 0.00000001 # prevent division by 0
+        return 1 / ( Sa/(Se+f) + Sm/(Sut+f) + f)
+
+
+    @staticmethod
+    def calc_Sonderberg_FoS(Sa, Sm, Se, Sy):
+        f = 0.00000001  # prevent division by 0
+        return 1 / (Sa / (Se + f) + Sm / (Sy + f) + f)
+
+
+    @staticmethod
+    def calc_Gerber_FoS(Sa, Sm, Se, Sut):
+        f = 0.000000001
+        a = (Sm / (Sut+f)) ** 2
+        b = (Sa / (Se+f))
+        c = - 1.0
+
+        p = b / (a+f)
+        q = c / (a+f)
+
+        n = - (p / 2.0) + np.sqrt((p / 2.0) ** 2 - q)
+        n2 = - (p / 2.0) - np.sqrt((p / 2.0) ** 2 - q)
+
+        return n

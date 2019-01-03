@@ -302,26 +302,229 @@ class SNDiagramPlot(PlotBase):
         PlotBase.SaveFigure(self.fig, path_and_file )
         return path_and_file
 
+"""
 ##---------------------------------------------------------
-
+Fatigue diagram to render teh mod. Goodman line, and Gerber line.
 ##---------------------------------------------------------
+"""
 class FatigueDiagramPlot(PlotBase):
 
     __plot_number = None
 
+    __goodman_line_plt = 0
+    __gerber_line_plt = 0
+    __sonderberg_line_plt = 0
+    __asme_line_plt = 0
+    __yieldstress_line_plt = 0
+    __load_point = 0
+    __load_line = 0
+    __helper_lines = [0,0]
+    __helper_text = [0,0,0,0,0]
+
+    __unit_si = r"$\left(\frac{N}{mm^2}\right)$"
+    __unit_uscs = r"$\left(ksi\right)$"
+
+    __linewidth = 1
+
 
     def __init__(self):
-        __plot_number = super().GetPlotNumber()
+        self.__plot_number = PlotBase.GetPlotNumber()
 
 
     def create_plot(self, figure_size):
+        plt.figure(self.__plot_number)
+        self.fig, self.axis = plt.subplots(figsize=(figure_size, figure_size), num=self.__plot_number)
+        plt.subplots_adjust(left=0.15, bottom=0.15)
+        self.fig.set_size_inches(figure_size, figure_size, forward=True)
 
-        return
+        Se = 30
+        Sy = 70
+        Sut = 100
+
+        x, y = self.__get_mod_goodman_points( Se, Sut)
+        self.__goodman_line_plt, = plt.plot(x, y, 'k-', color='blue', lw=self.__linewidth, label="Mod. Goodman")
+
+        x,y = self.__get_gerber_points(Se, Sut)
+        self.__gerber_line_plt, = plt.plot(x, y, 'k-', color='red', lw=self.__linewidth, label="Gerber")
+
+        x, y = self.__get_sonderberg_points(Se, Sy)
+        self.__sonderberg_line_plt, = plt.plot(x, y, 'k-', color='green', lw=self.__linewidth, label="Sonderberg")
+
+        #x, y = self.__get_asme_points(Se, Sy)
+        #self.__asme_line_plt, = plt.plot(x, y, 'k-', color='purple', lw=self.__linewidth, label="ASME-elliptic")
+
+        x,y = self.__get_yieldstress_points(Sy)
+        self.__yieldstress_line_plt, = plt.plot(x, y, 'k-', color='black', lw=self.__linewidth, label="Yield stress")
 
 
-    def update_plot(self):
+        x, y = self.__get_helper_lines(20, 20)
+        self.__helper_lines[0], =  plt.plot(x,y, 'k--', color='black', lw=self.__linewidth)
 
-        return
+        x, y = self.__get_load_line(20, 20)
+        self.__load_line,  = plt.plot(x,y, 'k--', color='black', lw=self.__linewidth)
+        self.__load_point, = plt.plot(20, 20, 'o', color='red', lw=2, label="Load")
+
+        self.__helper_text[0] = plt.text(20 + 2, 2, r"$S_m$", color='k', fontsize=10)
+        self.__helper_text[1] = plt.text(2, 20 + 2, r"$S_a$", color='k', fontsize=10)
+        self.__helper_text[2] = plt.text(Sy + 2, 2, r"$S_y$", color='k', fontsize=10)
+        self.__helper_text[3] = plt.text(Sut + 2, 2, r"$S_{ut}$", color='k', fontsize=10)
+        self.__helper_text[4] = plt.text(2, Se + 2, r"$S_e$", color='k', fontsize=10)
+
+        plt.grid()
+        plt.legend(loc=1, fontsize=9)
+        plt.xlabel(str(r"Midrange stress $\sigma_m$ " + self.__unit_si), fontsize=11)
+        plt.ylabel(str(r"Alternating stress $\sigma_a$ " + self.__unit_si), fontsize=11)
+
+        plt.figure(self.__plot_number)
+        self.axis.set_xlim([0, Sut + 10])
+        self.axis.set_ylim([0, Sy ])
+
+        return self.fig
+
+
+
+    def update_plot(self, sa, sm, mat):
+        plt.figure(self.__plot_number)
+
+        x, y = self.__get_mod_goodman_points(mat.Se, mat.Sut)
+        self.__goodman_line_plt.set_data(x, y)
+
+        x, y = self.__get_gerber_points(mat.Se, mat.Sut)
+        self.__gerber_line_plt.set_data(x, y)
+
+        x, y = self.__get_sonderberg_points(mat.Se, mat.Sy)
+        self.__sonderberg_line_plt.set_data(x, y)
+
+        #x, y = self.__get_asme_points(mat.Se, mat.Sy)
+        #self.__asme_line_plt.set_data(x, y)
+
+        x, y = self.__get_yieldstress_points(mat.Sy)
+        self.__yieldstress_line_plt.set_data(x, y)
+
+        x, y = self.__get_helper_lines(sa, sm)
+        self.__helper_lines[0].set_data(x, y)
+
+        x, y = self.__get_load_line(sa, sm)
+        self.__load_line.set_data(x, y)
+        self.__load_point.set_data(sm, sa)
+
+        plt.figure(self.__plot_number)
+        self.axis.set_xlim([0, mat.Sut + mat.Sut * 0.1])
+        self.axis.set_ylim([0, mat.Sy])
+
+        self.__helper_text[0].set_position((sm + mat.Sut * 0.01, mat.Sut * 0.01))
+        self.__helper_text[1].set_position((mat.Sut * 0.01, sa + mat.Sut * 0.01))
+        self.__helper_text[2].set_position((mat.Sy + mat.Sut * 0.01, mat.Sut * 0.01))
+        self.__helper_text[3].set_position((mat.Sut + mat.Sut * 0.01, mat.Sut * 0.01))
+        self.__helper_text[4].set_position((mat.Sy * 0.01, mat.Se + mat.Sy * 0.01))
+
+
+    def set_units(self, unit_):
+        """
+        Set the units
+        :param unit_:  0 -> SI units, else USCS units
+        :return:
+        """
+        plt.figure(self.__plot_number)
+
+        if unit_ == 0:
+            plt.xlabel(str(r"Midrange stress $\sigma_m$ " + self.__unit_si), fontsize=11)
+            plt.ylabel(str(r"Alternating stress $\sigma_a$ " + self.__unit_si), fontsize=11)
+        else:
+            plt.xlabel(str(r"Midrange stress $\sigma_m$ " + self.__unit_uscs), fontsize=11)
+            plt.ylabel(str(r"Alternating stress $\sigma_a$ " + self.__unit_uscs), fontsize=11)
+
+
+
+    def set_helpers(self, visible_):
+        self.__helper_text[0].set_visible(visible_)
+        self.__helper_text[1].set_visible(visible_)
+        self.__helper_text[2].set_visible(visible_)
+        self.__helper_text[3].set_visible(visible_)
+        self.__helper_text[4].set_visible(visible_)
+
+
+    def set_visible(self, line_, visible_):
+        """
+        Set individual lines visible or invisible
+        :param line_: the line id,
+                0 - mod goodman
+                1 - gerber
+                2 - sonderberg
+                3 - yield stress
+                4 - all
+        :param visible_:  True or False to set a line visible or invisible.
+        :return:
+        """
+
+        if line_ == 0: # mod goodman
+            self.__goodman_line_plt.set_visible(visible_)
+        elif line_ == 1:
+            self.__gerber_line_plt.set_visible(visible_)
+        elif line_ == 2:
+            self.__sonderberg_line_plt.set_visible(visible_)
+        elif line_ == 3:
+            self.__yieldstress_line_plt.set_visible(visible_)
+        elif line_ == 4:
+            self.__goodman_line_plt.set_visible(visible_)
+            self.__gerber_line_plt.set_visible(visible_)
+            self.__sonderberg_line_plt.set_visible(visible_)
+            self.__yieldstress_line_plt.set_visible(visible_)
+
+    def save_plot(self):
+        try:
+            os.stat(g_plot_path)
+        except:
+            os.mkdir(g_plot_path)
+
+        try:
+            plt.figure(self.__plot_number)
+            now = datetime.datetime.now()
+            #now = datetime.now().strftime('%y-%m-%d_%I-%M-%S')
+            path_and_file = str("./plots/Fatigue_diagram_" + str(now) + ".png")
+            PlotBase.SaveFigure(self.fig, path_and_file )
+            return path_and_file
+        except:
+            print("Error - could not save plot")
+
+
+    def __get_mod_goodman_points(self, Se, Sut):
+        """
+        Return points to draw the mod Godman line
+        :param Se:
+        :param Sut:
+        :return:
+        """
+        return [0,Sut], [Se, 0]
+    def __get_gerber_points(self, Se, Sut):
+        N = int(Sut )
+        x = np.linspace(0, Sut, N)
+        y = (1.0 - (x / Sut) ** 2) * Se
+
+        return x, y
+    def __get_asme_points(self, Se, Sy):
+        N = int(Sy)
+        x = np.linspace(0, Sy, N)
+        y =  np.sqrt( (1.0 - (x / Sy)**2) * Se**2)
+
+        return x, y
+    def __get_yieldstress_points(self, Sy):
+
+        return [0,Sy], [Sy,0]
+    def __get_sonderberg_points(self, Se, Sy):
+
+        return [0, Sy], [Se, 0]
+    def __get_load_line(self, sa, sm):
+        x = 500
+        y =  sa/(sm+ 0.000001) * x
+
+        return [0,x], [0,y]
+    def __get_helper_lines(self, sa, sm):
+
+        return [0, sm, sm], [sa, sa, 0]
+
+
+
 
 """
 ##---------------------------------------------------------

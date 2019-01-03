@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="19780618-5290-402e-81b4-48b3f9ab89b1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/ME325Common/ContinuumMechanics.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/ContinuumMechanics.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ME325Common/InputHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/InputHelpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ME325Common/DynamicLoadTheories.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/DynamicLoadTheories.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ME325Common/PlotHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/PlotHelpers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ME325Common/WidgetHelpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/ME325Common/WidgetHelpers.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,6 +18,29 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ME325Common/FailureTheories.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-27">
+              <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ME325Common/DynamicLoadTheories.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="144">
+              <caret line="93" lean-forward="true" selection-start-line="93" selection-end-line="93" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+                <element signature="e#211#743#0" />
+                <element signature="e#770#2900#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ME325Common/ContinuumMechanics.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="301">
@@ -27,22 +50,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ME325Common/ExampleBeamRound.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="470" lean-forward="true" selection-start-line="470" selection-end-line="470" />
-              <folding>
-                <element signature="e#2#17#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ME325Common/PlotHelpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="504" column="29" selection-start-line="504" selection-start-column="29" selection-end-line="504" selection-end-column="29" />
+            <state relative-caret-position="186">
+              <caret line="498" column="43" selection-start-line="498" selection-start-column="43" selection-end-line="498" selection-end-column="43" />
               <folding>
                 <element signature="e#14#29#0" expanded="true" />
                 <element signature="e#348#5540#0" />
@@ -50,10 +61,19 @@
                 <element signature="e#5920#6883#0" />
                 <element signature="e#7309#8114#0" />
                 <element signature="e#9198#9399#0" />
-                <element signature="e#9503#9748#0" />
+                <element signature="e#15162#15644#0" />
+                <element signature="e#10466#10576#0" />
+                <element signature="e#11287#11409#0" />
+                <element signature="e#12177#12291#0" />
+                <element signature="e#11652#11669#0" />
+                <element signature="e#11930#11948#0" />
+                <element signature="e#13917#13939#0" />
                 <element signature="e#9807#10028#0" />
                 <element signature="e#16584#16761#0" />
+                <element signature="e#17032#17754#0" />
                 <element signature="e#16747#17076#0" />
+                <element signature="e#19537#19945#0" />
+                <element signature="e#17565#17981#0" />
                 <element signature="e#21001#33391#0" />
                 <element signature="e#19770#19833#0" />
                 <element signature="e#21447#22633#0" />
@@ -62,13 +82,30 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/FatigueDiagram_General.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-410">
+              <caret line="82" column="19" lean-forward="true" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
+              <folding>
+                <element signature="e#949#964#0" expanded="true" />
+                <element signature="e#4117#5286#0" />
+                <element signature="e#7089#10070#0" />
+                <element signature="e#10330#10571#0" />
+                <element signature="e#16991#17409#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ME325Common/WidgetHelpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="69" selection-start-line="69" selection-end-line="69" />
+            <state relative-caret-position="255">
+              <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
               <folding>
                 <element signature="e#13#28#0" expanded="true" />
+                <element signature="e#319#2487#0" />
               </folding>
             </state>
           </provider>
@@ -77,8 +114,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ME325Common/InputHelpers.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="80">
-              <caret line="40" column="35" lean-forward="true" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
+            <state relative-caret-position="87">
+              <caret line="40" column="33" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="33" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -89,8 +126,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MohrsCircle2D.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="364">
-              <caret line="320" lean-forward="true" selection-start-line="320" selection-end-line="320" />
+            <state relative-caret-position="2678">
+              <caret line="320" selection-start-line="320" selection-end-line="320" />
               <folding>
                 <element signature="e#4523#4850#0" />
                 <element signature="e#6018#6613#0" />
@@ -105,28 +142,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ME325Common/UnitConversion.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="19" selection-start-line="20" selection-start-column="8" selection-end-line="20" selection-end-column="19" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/SNDiagram_General.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2636">
-              <caret line="330" lean-forward="true" selection-start-line="330" selection-end-line="330" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="25" selection-start-line="25" selection-end-line="31" selection-end-column="49" />
+            <state relative-caret-position="211">
+              <caret line="16" selection-start-line="16" selection-end-line="16" selection-end-column="32" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -135,10 +154,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ME325Common/PlotBase.py">
+        <entry file="file://$PROJECT_DIR$/ME325Common/METypes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="105">
+              <caret line="7" column="7" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="7" />
             </state>
           </provider>
         </entry>
@@ -156,12 +175,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>out_fatigue_strength_str</find>
-      <find>fatigue_strength_str</find>
-      <find>tickinterval</find>
-      <find>liftime_slider</find>
-      <find>liftime_var</find>
-      <find>endurance_strength_var</find>
       <find>fatigue_strength_slider</find>
       <find>manual_entry_callback</find>
       <find>use_manual_entry_values</find>
@@ -185,7 +198,13 @@
       <find>__checkbox_helpers</find>
       <find>__plot</find>
       <find>createLoadPlot</find>
+      <find>update_plot</find>
+      <find>combobox_str</find>
+      <find>update_values</find>
       <find>calcPrincipalAngles</find>
+      <find>__update_slider</find>
+      <find>cb_update</find>
+      <find>menu</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -232,24 +251,25 @@
         <option value="$PROJECT_DIR$/DuctileFailureTheory03.py" />
         <option value="$PROJECT_DIR$/ME325Common/ExampleBeamRound.py" />
         <option value="$PROJECT_DIR$/ME325Common/PlotBase.py" />
-        <option value="$PROJECT_DIR$/ME325Common/DynamicLoadTheories.py" />
         <option value="$PROJECT_DIR$/SNDiagram_General.py" />
         <option value="$PROJECT_DIR$/ME325Common/METypes.py" />
-        <option value="$PROJECT_DIR$/test.py" />
         <option value="$PROJECT_DIR$/ME325Common/ContinuumMechanics.py" />
         <option value="$PROJECT_DIR$/ME325Common/UnitConversion.py" />
         <option value="$PROJECT_DIR$/ME325Common/InputHelpers.py" />
         <option value="$PROJECT_DIR$/MohrsCircle2D.py" />
         <option value="$PROJECT_DIR$/ME325Common/WidgetHelpers.py" />
+        <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/ME325Common/DynamicLoadTheories.py" />
         <option value="$PROJECT_DIR$/ME325Common/PlotHelpers.py" />
+        <option value="$PROJECT_DIR$/FatigueDiagram_General.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="210" />
-    <option name="y" value="29" />
-    <option name="width" value="1469" />
-    <option name="height" value="1129" />
+    <option name="x" value="398" />
+    <option name="y" value="116" />
+    <option name="width" value="1862" />
+    <option name="height" value="1222" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -303,7 +323,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.MohrsCircle2D">
+  <component name="RunManager" selected="Python.FatigueDiagram_General">
     <configuration default="true" type="tests" factoryName="Attests">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -323,27 +343,6 @@
       <option name="USE_PATTERN" value="false" />
       <method />
     </configuration>
-    <configuration name="DuctileFailureTheory02" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="ME325" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DuctileFailureTheory02.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="DuctileFailureTheory03" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ME325" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -357,6 +356,27 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/DuctileFailureTheory03.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="FatigueDiagram_General" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="ME325" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FatigueDiagram_General.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -450,19 +470,19 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Python.DuctileFailureTheory02" />
       <item itemvalue="Python.DuctileFailureTheory03" />
       <item itemvalue="Python.test" />
       <item itemvalue="Python.SNDiagram_General" />
       <item itemvalue="Python.MohrsCircle2D" />
+      <item itemvalue="Python.FatigueDiagram_General" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.FatigueDiagram_General" />
         <item itemvalue="Python.MohrsCircle2D" />
         <item itemvalue="Python.test" />
         <item itemvalue="Python.SNDiagram_General" />
         <item itemvalue="Python.DuctileFailureTheory03" />
-        <item itemvalue="Python.DuctileFailureTheory02" />
       </list>
     </recent_temporary>
   </component>
@@ -480,16 +500,16 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="210" y="29" width="1469" height="1129" extended-state="0" />
+    <frame x="398" y="116" width="1862" height="1222" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24447514" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1922868" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32938856" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.37573963" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.3964497" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.34417343" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39566395" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -527,7 +547,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/ME325Common/PlotHelpers.py</url>
-          <line>764</line>
+          <line>970</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
@@ -725,13 +745,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ME325Common/FailureTheories.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.5/lib/python3.5/tkinter/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="232">
@@ -739,37 +752,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ME325Common/DynamicLoadTheories.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="12" lean-forward="true" selection-start-line="12" selection-end-line="12" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ME325Common/METypes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="508">
-          <caret line="36" column="23" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ME325Common/PlotBase.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="25" selection-start-line="25" selection-end-line="31" selection-end-column="49" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -790,7 +776,7 @@
     <entry file="file://$PROJECT_DIR$/SNDiagram_General.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2636">
-          <caret line="330" lean-forward="true" selection-start-line="330" selection-end-line="330" />
+          <caret line="330" selection-start-line="330" selection-end-line="330" />
         </state>
       </provider>
     </entry>
@@ -814,7 +800,7 @@
     <entry file="file://$PROJECT_DIR$/ME325Common/ExampleBeamRound.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
-          <caret line="470" lean-forward="true" selection-start-line="470" selection-end-line="470" />
+          <caret line="470" selection-start-line="470" selection-end-line="470" />
           <folding>
             <element signature="e#2#17#0" expanded="true" />
           </folding>
@@ -828,10 +814,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/ME325Common/METypes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="7" selection-start-line="7" selection-start-column="4" selection-end-line="7" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="16" selection-start-line="16" selection-end-line="16" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ME325Common/FailureTheories.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-27">
+          <caret line="66" column="28" selection-start-line="66" selection-start-column="28" selection-end-line="66" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/MohrsCircle2D.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="320" lean-forward="true" selection-start-line="320" selection-end-line="320" />
+        <state relative-caret-position="2678">
+          <caret line="320" selection-start-line="320" selection-end-line="320" />
           <folding>
             <element signature="e#4523#4850#0" />
             <element signature="e#6018#6613#0" />
@@ -844,30 +854,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ME325Common/InputHelpers.py">
+    <entry file="file://$PROJECT_DIR$/ME325Common/DynamicLoadTheories.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="40" column="35" lean-forward="true" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
+        <state relative-caret-position="144">
+          <caret line="93" lean-forward="true" selection-start-line="93" selection-end-line="93" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ME325Common/WidgetHelpers.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
-          <folding>
-            <element signature="e#13#28#0" expanded="true" />
+            <element signature="e#0#18#0" expanded="true" />
+            <element signature="e#211#743#0" />
+            <element signature="e#770#2900#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ME325Common/PlotHelpers.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="504" column="29" selection-start-line="504" selection-start-column="29" selection-end-line="504" selection-end-column="29" />
+        <state relative-caret-position="186">
+          <caret line="498" column="43" selection-start-line="498" selection-start-column="43" selection-end-line="498" selection-end-column="43" />
           <folding>
             <element signature="e#14#29#0" expanded="true" />
             <element signature="e#348#5540#0" />
@@ -875,13 +877,57 @@
             <element signature="e#5920#6883#0" />
             <element signature="e#7309#8114#0" />
             <element signature="e#9198#9399#0" />
-            <element signature="e#9503#9748#0" />
+            <element signature="e#15162#15644#0" />
+            <element signature="e#10466#10576#0" />
+            <element signature="e#11287#11409#0" />
+            <element signature="e#12177#12291#0" />
+            <element signature="e#11652#11669#0" />
+            <element signature="e#11930#11948#0" />
+            <element signature="e#13917#13939#0" />
             <element signature="e#9807#10028#0" />
             <element signature="e#16584#16761#0" />
+            <element signature="e#17032#17754#0" />
             <element signature="e#16747#17076#0" />
+            <element signature="e#19537#19945#0" />
+            <element signature="e#17565#17981#0" />
             <element signature="e#21001#33391#0" />
             <element signature="e#19770#19833#0" />
             <element signature="e#21447#22633#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ME325Common/WidgetHelpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="14" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+          <folding>
+            <element signature="e#13#28#0" expanded="true" />
+            <element signature="e#319#2487#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ME325Common/InputHelpers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="40" column="33" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FatigueDiagram_General.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-410">
+          <caret line="82" column="19" lean-forward="true" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
+          <folding>
+            <element signature="e#949#964#0" expanded="true" />
+            <element signature="e#4117#5286#0" />
+            <element signature="e#7089#10070#0" />
+            <element signature="e#10330#10571#0" />
+            <element signature="e#16991#17409#0" />
           </folding>
         </state>
       </provider>
