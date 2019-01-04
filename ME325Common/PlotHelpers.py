@@ -1181,3 +1181,214 @@ class CauchyStressPlanePlot(PlotBase):
         a3y = (p0x + d1x - l * 0.15) * np.sin(np.deg2rad(angle)) + (p0y + d1y + l * 0.1) * np.cos(np.deg2rad(angle))
 
         return [r1x, r2x], [r1y, r2y], [ a2x, r2x, a3x], [ a2y, r2y, a3y]
+
+
+
+
+""""
+---------------------------------------------------------
+da/dN diagram
+---------------------------------------------------------
+"""
+class CrackPropagationDiagramPlot(PlotBase):
+    __plot_number = -1
+
+    __plot = [0, 0, 0, 0]
+    __helper_lines = [0, 0, 0, 0]
+    __text_plt = [0, 0, 0, 0, 0]
+    __load_plt = 0
+    __linewidth = 1
+
+
+    # range linear area
+    __dk_min = 0
+    __dk_max = 0
+
+    # threshold
+    __dk_th = 0
+
+
+    __unit_si = r"$\left(\frac{N}{mm^2}\right)$"
+    __unit_uscs = r"$\left( ksi \right)$"
+
+    __axis_length = 25
+
+    __min_cracklength = 0
+    __max_dad_max = 0
+
+    def __init__(self):
+        self.__plot_number = PlotBase.GetPlotNumber()
+
+
+
+    def create_plot(self, figure_size_x, figure_size_y):
+        plt.figure(self.__plot_number)
+        self.fig, self.axis = plt.subplots(figsize=(figure_size_x, figure_size_y), num=self.__plot_number)
+        plt.subplots_adjust(left=0.15, bottom=0.15)
+        plt.grid()
+        self.fig.set_size_inches(figure_size_x, figure_size_y, forward=True)
+
+        C = 0.0000012
+        m = 2.85
+
+        dk_th = 7  # dk threshold
+        dK1 = 10 # linear area
+        dk2 = 120
+
+        dadn_0 = 2E-6 # smalles crack
+        t = 0.5
+
+        self.__dk_min = dK1
+        self.__dk_max = dk2
+
+
+        dK, da_dn = self.__get_section_2(C, m, dK1, dk2)
+        self.__plot[0], = plt.plot(dK, da_dn, c='b')
+
+        px, py = self.__get_section_1(dadn_0, da_dn[0], dk_th, dK[0])
+        self.__plot[1], = plt.plot(px, py, c='b')
+
+        start = da_dn[int(len(da_dn)-1)]
+        dk_start = dK[int(len(dK)-1)]
+
+        px, py = self.__get_section_3(start, start+10, dk_start, dk_start+1, t)
+        self.__plot[2], = plt.plot(px, py, c='b')
+
+        self.__helper_lines[0], = plt.plot([dK1, dK1], [dadn_0, start+100], 'k--', c='k')
+        self.__helper_lines[1], = plt.plot([dk2, dk2], [start+100, start+100], 'k--', c='k')
+
+        self.__helper_lines[2], = plt.plot([dK1+10, dK1+10], [dadn_0, start + 100], 'k--', c='r')
+        self.__helper_lines[3], = plt.plot([1, dk2], [ start + 10, start + 10], 'k--', c='r')
+
+        self.__text_plt[0] = plt.text(10, dadn_0 + dadn_0*0.01, r"$\Delta K_{th}$" )
+        self.__text_plt[1] = plt.text(dk_start+1, (start+10) + (start+10) * 0.01, r"$\Delta K_{c}$")
+
+
+        self.__load_plt, = plt.plot(10,0.01, 'o', c='red')
+
+
+        plt.xlabel(str(r"$\log ( \Delta K \sqrt{m} ) $"), fontsize=11)
+        plt.ylabel(str(r"$\log ( \frac{da}{dN} )$"), fontsize=13)
+
+        plt.grid()
+        plt.figure(self.__plot_number)
+        #self.axis.set_xlim([-self.__axis_length, self.__axis_length])
+        #self.axis.set_ylim([-self.__axis_length, self.__axis_length])
+
+        self.axis.set_xlim([dk_th - 1, dk_start + 100])
+        self.axis.set_xscale("log", nonpos='clip')
+        self.axis.set_yscale("log", nonpos='clip')
+        self.axis.grid()
+
+        return self.fig
+
+
+    def update_material(self, m, C, dk_th, dk1, dk2, min_cracklength):
+
+        t = 1
+
+        self.__dk_th = dk_th
+        self.__dk_min = dk1
+        self.__dk_max = dk2
+
+        plt.figure(self.__plot_number)
+
+        self.__min_cracklength = min_cracklength
+
+        if dk1 >= dk2:
+            return
+
+        if dk_th >= dk1:
+            return
+
+        if min_cracklength > C:
+            min_cracklength = C - C*10
+
+        dK, da_dn = self.__get_section_2(C, m, dk1, dk2)
+        self.__plot[0].set_data(dK, da_dn)
+
+        px, py = self.__get_section_1(min_cracklength, da_dn[0], dk_th, dK[0])
+        self.__plot[1].set_data(px, py)
+
+        start = da_dn[int(len(da_dn) - 1)]
+        range = da_dn[int(len(da_dn) - 1)] - da_dn[0]
+        dk_start = dK[int(len(dK) - 1)]
+
+        px, py = self.__get_section_3(start, start + range * 40, dk_start, dk_start + 10, t)
+        self.__plot[2].set_data(px, py)
+
+        self.__max_dad_max = dk_start + 100
+
+        self.axis.set_xlim([dk_th-1, dk_start + 100])
+        self.axis.set_ylim([min_cracklength, (start + range * 40) +(start + range * 40) * 2])
+
+        self.__text_plt[0].set_position((dk_th +dk_th * 0.01 , min_cracklength + min_cracklength * 0.01))
+        self.__text_plt[1].set_position((dk_start + 1,  (start + range * 40) + (start + range * 40) * 0.01))
+
+        self.__helper_lines[0].set_data([dk1, dk1], [min_cracklength, start + 250])
+        self.__helper_lines[1].set_data([dk2, dk2], [min_cracklength, start + 250])
+
+
+
+    def update_plot(self, dK, daDN):
+
+        try:
+            plt.figure(self.__plot_number)
+
+            self.__load_plt.set_data(dK, daDN)
+
+            self.__helper_lines[2].set_data(([dK, dK],[self.__min_cracklength, daDN ] ))
+            self.__helper_lines[3].set_data(([1,dK],[daDN, daDN]))
+
+
+        except ValueError:
+            print("ValueError")
+
+            return
+
+        except IndexError:
+            print("IndexError")
+            return
+
+    def save_plot(self):
+        try:
+            os.stat(g_plot_path)
+        except:
+            os.mkdir(g_plot_path)
+
+        try:
+            plt.figure(self.__plot_number)
+            now = datetime.datetime.now()
+            #now = datetime.now().strftime('%y-%m-%d_%I-%M-%S')
+            path_and_file = str("./plots/da_dN_diagram_" + str(now) + ".png")
+            PlotBase.SaveFigure(self.fig, path_and_file )
+            return path_and_file
+        except:
+            print("Error - could not save plot")
+
+
+    def __get_section_1(self, dadn_0, dadn_1, dK0, dK1):
+        a = (dadn_0 - dadn_1) / (dK0**2 - dK1**2)
+        b = dadn_1 - a * dK1**2
+
+        px = np.linspace(dK0, dK1, 100)
+        py = a * px**2 + b
+
+        return px, py
+
+
+    def __get_section_2(self, C, m, N_start, Nstop):
+
+        dK = np.linspace(N_start, Nstop, Nstop-N_start)
+        da_dn = C * dK**m
+
+        return dK, da_dn
+
+
+    def __get_section_3(self, dadn_2, dadn3, dk2, dk3,  t):
+        a = (dadn_2 - dadn3) / (np.exp(t * dk2) - np.exp(t * dk3))
+        b = dadn3 - a * np.exp(t * dk3)
+        px = np.linspace(dk2, dk3, 100)
+        py = a * np.exp(t * px) + b
+
+        return px, py
